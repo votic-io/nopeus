@@ -1,24 +1,23 @@
 # encoding: UTF-8
 #application
-application = Shoppe::Application.where(name: 'default').first_or_create
-Thread.current[:application] = application
-
 # tax rates
 tax_rate = Shoppe::TaxRate.where(name: 'Standard VAT', rate: 20.0).first_or_create
 
 # delivery services
-ds = Shoppe::DeliveryService.new(name: 'Next Day Delivery', code: 'ND16', courier: 'AnyCourier', tracking_url: 'http://trackingurl.com/track/{{consignment_number}}')
-if ds.save
+unless Shoppe::DeliveryService.where(name: 'Next Day Delivery', code: 'ND16', courier: 'AnyCourier', tracking_url: 'http://trackingurl.com/track/{{consignment_number}}').exists?
+  ds = Shoppe::DeliveryService.create(name: 'Next Day Delivery', code: 'ND16', courier: 'AnyCourier', tracking_url: 'http://trackingurl.com/track/{{consignment_number}}')
   ds.delivery_service_prices.create(code: 'Parcel', min_weight: 0, max_weight: 1, price: 5.0, cost_price: 4.50, tax_rate: tax_rate)
   ds.delivery_service_prices.create(code: 'Parcel', min_weight: 1, max_weight: 5, price: 8.0, cost_price: 7.5, tax_rate: tax_rate)
   ds.delivery_service_prices.create(code: 'Parcel', min_weight: 5, max_weight: 20, price: 10.0, cost_price: 9.50, tax_rate: tax_rate)
+  ds.save
 end
 
-ds = Shoppe::DeliveryService.new(name: 'Saturday Delivery', code: 'NDSA16', courier: 'AnyCourier', tracking_url: 'http://trackingurl.com/track/{{consignment_number}}')
-if ds.save
+unless Shoppe::DeliveryService.where(name: 'Saturday Delivery', code: 'NDSA16', courier: 'AnyCourier', tracking_url: 'http://trackingurl.com/track/{{consignment_number}}').exists?
+  ds = Shoppe::DeliveryService.create(name: 'Saturday Delivery', code: 'NDSA16', courier: 'AnyCourier', tracking_url: 'http://trackingurl.com/track/{{consignment_number}}')
   ds.delivery_service_prices.create(code: 'Parcel', min_weight: 0, max_weight: 1, price: 27.0, cost_price: 24.00, tax_rate: tax_rate)
   ds.delivery_service_prices.create(code: 'Parcel', min_weight: 1, max_weight: 5, price: 29.0, cost_price: 20.00, tax_rate: tax_rate)
   ds.delivery_service_prices.create(code: 'Parcel', min_weight: 5, max_weight: 20, price: 37.0, cost_price: 32.00, tax_rate: tax_rate)
+  ds.save
 end
 
 # categories

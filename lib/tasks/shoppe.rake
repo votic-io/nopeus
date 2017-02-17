@@ -1,23 +1,34 @@
 namespace :shoppe do
   desc 'Load seed data for the Shoppe'
-  task seed: :environment do
+  task :seed, [:application_name] => :environment do |task, args|
+    name = args[:application_name]
+    application = Shoppe::Application.where(name: name).first_or_create
+    Thread.current[:application] = application
+  
     require File.join(Shoppe.root, 'db', 'seeds')
   end
 
   desc 'Create a default admin user'
-  task create_default_user: :environment do
-    Shoppe::User.create(email_address: 'admin@example.com', password: 'password', password_confirmation: 'password', first_name: 'Default', last_name: 'Admin')
+  task :create_default_user, [:application_name] => :environment do |task, args|
+    name = args[:application_name]
+    application = Shoppe::Application.where(name: name).first_or_create
+    Thread.current[:application] = application
+    
+    Shoppe::User.create(email_address: "admin@#{Thread.current[:application].name}.com", password: 'password', password_confirmation: 'password', first_name: 'Default', last_name: 'Admin')
     puts
     puts '    New user has been created successfully.'
     puts
-    puts '    E-Mail Address..: admin@example.com'
+    puts "    E-Mail Address..: admin@#{Thread.current[:application].name}.com"
     puts '    Password........: password'
     puts
   end
 
   desc 'Import default set of countries'
-  task import_countries: :environment do
-    Thread.current[:application] = Shoppe::Application.where(name: 'default').first
+  task :import_countries, [:application_name] => :environment do |task, args|
+    name = args[:application_name]
+    application = Shoppe::Application.where(name: name).first_or_create
+    Thread.current[:application] = application
+
     Shoppe::CountryImporter.import
   end
 
@@ -31,8 +42,10 @@ namespace :shoppe do
 
     puts Thread.current[:application].to_json
 
-    Rake::Task['shoppe:import_countries'].invoke    if Shoppe::Country.all.empty?
-    Rake::Task['shoppe:create_default_user'].invoke if Shoppe::User.all.empty?
+    Rake.application.invoke_task("shoppe:import_countries[#{application.name}]")    if Shoppe::Country.all.empty?
+    Rake.application.invoke_task("shoppe:create_default_user[#{application.name}]") if Shoppe::User.all.empty?
+
+    Rake.application.invoke_task("shoppe:seed[#{application.name}]")
   end
 
   desc 'Converts nifty-attachment attachments to Shoppe Attachments'
@@ -56,5 +69,17 @@ namespace :shoppe do
       attach.file = uploaded_file
       attach.save!
     end
+  end
+
+  desc 'Converts nifty-attachment attachments to Shoppe Attachments'
+  task :create_application, [:application_name] => :environment do |task, args|
+    name = args[:application_name]
+    application = Shoppe::Application.where(name: name).first_or_create
+    Thread.current[:application] = application
+
+    Rake.application.invoke_task("shoppe:import_countries[#{application.name}]")    if Shoppe::Country.all.empty?
+    Rake.application.invoke_task("shoppe:create_default_user[#{application.name}]") if Shoppe::User.where(application_id: application.id).empty?
+
+    Rake.application.invoke_task("shoppe:seed[#{application.name}]")
   end
 end
