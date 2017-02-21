@@ -61,9 +61,12 @@ Shoppe::Engine.routes.draw do
         post 'buy'
       end
     end
+    resources :product_categories do
+    end
     resources :orders do
       collection do
         get 'current'
+        post 'add'
         post 'current/reset' => 'orders#current_reset'
       end
       member do

@@ -2,6 +2,8 @@ module Shoppe
   module Api
     class OrdersController < BaseApiController
 
+      include Shoppe::ProductsHelper
+
       def show
         @order = Shoppe::Order.find(params[:id])
         render 'show'
@@ -11,6 +13,22 @@ module Shoppe
     		@order = current_order
 	     	render 'show'
     	end
+
+      def add
+        if params[:id].nil?
+          params[:id] = current_order[:id]
+        end
+        @order = Shoppe::Order.find(params[:id])
+
+        puts @order 
+
+        params[:quantity] ||= 1
+        @product = fetch_product params[:product_id]
+        @order.order_items.add_item(@product, params[:quantity].to_i) 
+        @order = current_order
+        @order = Shoppe::Order.find(params[:id])
+        render 'show'
+      end
 
       def delete
         @order = Shoppe::Order.find(params[:id])
