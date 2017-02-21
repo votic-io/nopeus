@@ -21,7 +21,7 @@ module Shoppe
 
     # Validations
     validates :name, presence: true
-    validates :permalink, presence: true, uniqueness: { scope: :parent_id }, permalink: true
+    validates :permalink, presence: true, uniqueness: { scope: [:parent_id, :application_id] }, permalink: true
 
     # Root (no parent) product categories only
     scope :without_parent, -> { where(parent_id: nil) }
@@ -29,8 +29,7 @@ module Shoppe
     # No descendants
     scope :except_descendants, ->(record) { where.not(id: (Array.new(record.descendants) << record).flatten) }
 
-    translates :name, :permalink, :description
-    scope :ordered, -> { includes(:translations).order(:name) }
+    scope :ordered, -> { order(:name) }
 
     # Set the permalink on callback
     before_validation :set_permalink, :set_ancestral_permalink

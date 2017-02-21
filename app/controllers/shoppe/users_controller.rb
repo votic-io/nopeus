@@ -9,7 +9,7 @@ module Shoppe
     end
 
     def index
-      @users = Shoppe::User.all
+      @users = Shoppe::User.where(application_id: Thread.current[:application].id)
     end
 
     def new

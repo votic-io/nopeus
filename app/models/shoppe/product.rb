@@ -1,5 +1,4 @@
 require 'roo'
-require 'globalize'
 
 module Shoppe
   class Product < ActiveRecord::Base
@@ -43,7 +42,7 @@ module Shoppe
       product.validates :short_description, presence: true
     end
     validates :name, presence: true
-    validates :permalink, presence: true, uniqueness: true, permalink: true
+    validates :permalink, presence: true, uniqueness: {scope: :application_id}, permalink: true
     validates :sku, presence: true
     validates :weight, numericality: true
     validates :price, numericality: true
@@ -58,9 +57,7 @@ module Shoppe
     # All featured products
     scope :featured, -> { where(featured: true) }
 
-    # Localisations
-    translates :name, :permalink, :description, :short_description
-    scope :ordered, -> { includes(:translations).order(:name) }
+    scope :ordered, -> { order(:name) }
 
     def attachments=(attrs)
       if attrs['default_image']['file'].present? then attachments.build(attrs['default_image']) end
