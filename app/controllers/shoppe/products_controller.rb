@@ -5,7 +5,7 @@ module Shoppe
 
     def index
       @products_paged = Shoppe::Product.root
-                                       .includes(:stock_level_adjustments, :product_categories, :variants)
+                                       .includes(:translations, :stock_level_adjustments, :product_categories, :variants)
                                        .order(:name)
       if params[:category_id].present?
         @products_paged = @products_paged

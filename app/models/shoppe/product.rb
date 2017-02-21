@@ -57,7 +57,9 @@ module Shoppe
     # All featured products
     scope :featured, -> { where(featured: true) }
 
-    scope :ordered, -> { order(:name) }
+    # Localisations
+    translates :name, :permalink, :description, :short_description
+    scope :ordered, -> { includes(:translations).order(:name) }
 
     def attachments=(attrs)
       if attrs['default_image']['file'].present? then attachments.build(attrs['default_image']) end

@@ -29,7 +29,8 @@ module Shoppe
     # No descendants
     scope :except_descendants, ->(record) { where.not(id: (Array.new(record.descendants) << record).flatten) }
 
-    scope :ordered, -> { order(:name) }
+    translates :name, :permalink, :description
+    scope :ordered, -> { includes(:translations).order(:name) }
 
     # Set the permalink on callback
     before_validation :set_permalink, :set_ancestral_permalink
