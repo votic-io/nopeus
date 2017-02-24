@@ -34,7 +34,7 @@ module Shoppe
 
     # Set the permalink on callback
     before_validation :set_permalink, :set_ancestral_permalink
-    after_save :set_child_permalinks
+    after_save :set_child_permalinks, :set_ancestral_permalink
 
     def attachments=(attrs)
       attachments.build(attrs['image']) if attrs['image']['file'].present?
@@ -53,6 +53,12 @@ module Shoppe
     def hierarchy_array
       return [self] unless parent
       parent.hierarchy_array.concat [self]
+    end
+
+    def root_name
+      name = self.name
+      name = ancestors.first.name unless ancestors.first.nil?
+      name
     end
 
     # Attachment with the role image

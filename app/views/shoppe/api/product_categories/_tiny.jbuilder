@@ -1,0 +1,1 @@
+json.(p, :id, :application_id, :name, :permalink, :description, :combined_permalink)

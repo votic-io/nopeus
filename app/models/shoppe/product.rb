@@ -75,6 +75,10 @@ module Shoppe
       parent ? "#{parent.name} (#{name})" : name
     end
 
+    def full_permalink
+      parent ? "#{parent.permalink}/(#{permalink})" : permalink
+    end
+
     # Is this product orderable?
     #
     # @return [Boolean]

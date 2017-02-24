@@ -1,3 +1,3 @@
 json.product_categories @product_categories do |p|
-	json.partial! 'item', p: p
+	json.partial! 'shoppe/api/product_categories/item', p: p
 end
