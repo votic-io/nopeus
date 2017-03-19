@@ -21,8 +21,13 @@ unless Shoppe::DeliveryService.where(name: 'Saturday Delivery', code: 'NDSA16', 
 end
 
 # categories
+cat0 = Shoppe::ProductCategory.where(name: 'Categories').first_or_create
 cat1 = Shoppe::ProductCategory.where(name: 'VoIP Phones').first_or_create
+cat1.parent = cat0
+cat1.save
 cat2 = Shoppe::ProductCategory.where(name: 'VoIP Accessories').first_or_create
+cat2.parent = cat0
+cat2.save
 
 def get_file(name, content_type = 'image/jpeg')
   file = ActionDispatch::Http::UploadedFile.new(tempfile: File.open(File.join(Shoppe.root, 'db', 'seeds_data', name), 'rb'))
