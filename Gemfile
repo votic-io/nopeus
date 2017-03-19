@@ -13,7 +13,5 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
-gem 'pg' if ENV['DB'] == 'postgresql'
-
 gem 'awesome_nested_set', '~> 3.0'
 
