@@ -3,6 +3,7 @@ namespace :shoppe do
   task :seed, [:application_name] => :environment do |task, args|
     name = args[:application_name]
     application = Shoppe::Application.where(name: name).first_or_create
+    puts application.to_json
     Thread.current[:application] = application
   
     require File.join(Shoppe.root, 'db', 'seeds')
