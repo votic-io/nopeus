@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coffee-rails', '~> 4'
   s.add_development_dependency 'sass-rails', '~> 4.0'
   s.add_development_dependency 'pg', '~> 0.18.4'
-  s.add_development_dependency 'mysql2', '~> 0.3'
+  #s.add_development_dependency 'mysql2', '~> 0.3'
   s.add_development_dependency 'yard', '~> 0'
   s.add_development_dependency 'yard-activerecord', '~> 0'
   s.add_development_dependency 'markdown', '~> 1.0'
