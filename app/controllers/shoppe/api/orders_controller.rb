@@ -20,8 +20,6 @@ module Shoppe
         end
         @order = Shoppe::Order.find(params[:id])
 
-        puts @order 
-
         params[:quantity] ||= 1
         @product = fetch_product params[:product_id]
         @order.order_items.add_item(@product, params[:quantity].to_i) 
