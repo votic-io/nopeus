@@ -23,6 +23,7 @@ module Shoppe
       order.validates :delivery_name, presence: true
       order.validates :delivery_address1, presence: true
       order.validates :delivery_address3, presence: true
+      #order.validates :delivery_address4, presence: true
       order.validates :delivery_postcode, presence: true
       order.validates :delivery_country, presence: true
     end

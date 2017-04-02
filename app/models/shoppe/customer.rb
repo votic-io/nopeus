@@ -1,6 +1,8 @@
 module Shoppe
   class Customer < ActiveRecord::Base
     include ApplicationModel
+    has_secure_password
+
     EMAIL_REGEX = /\A\b[A-Z0-9\.\_\%\-\+]+@(?:[A-Z0-9\-]+\.)+[A-Z]{2,6}\b\z/i
     PHONE_REGEX = /\A[+?\d\ \-x\(\)]{7,}\z/
 
@@ -11,7 +13,7 @@ module Shoppe
     has_many :orders, dependent: :restrict_with_exception, class_name: 'Shoppe::Order'
 
     # Validations
-    validates :email, presence: true, uniqueness: true, format: { with: EMAIL_REGEX }
+    validates :email, presence: true, uniqueness: {scope: :application_id}, format: { with: EMAIL_REGEX }
     validates :phone, presence: true, format: { with: PHONE_REGEX }
 
     # All customers ordered by their ID desending
@@ -38,6 +40,31 @@ module Shoppe
 
     def self.ransackable_associations(_auth_object = nil)
       []
+    end
+
+    # Reset the user's password to something random and e-mail it to them
+    def reset_password!
+      self.password = SecureRandom.hex(8)
+      self.password_confirmation = password
+      save!
+      Shoppe::UserMailer.new_password(self).deliver
+    end
+
+    # Attempt to authenticate a user based on email & password. Returns the
+    # user if successful otherwise returns false.
+    #
+    # @param email_address [String]
+    # @param paassword [String]
+    # @return [Shoppe::User]
+    def self.authenticate(email, password)
+      user = where(email: email).first
+      return false if user.nil?
+      return false unless user.authenticate(password)
+      user
+    end
+
+    def email_address
+        return self.email
     end
   end
 end

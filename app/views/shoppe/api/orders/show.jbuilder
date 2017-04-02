@@ -6,4 +6,6 @@ json.order do
 			json.partial! 'shoppe/api/products/item', p: o.ordered_item
 		end
 	end
+	json.errors @errors
+	
 end
