@@ -42,7 +42,7 @@ module Shoppe
         order_items.each(&:confirm!)
 
         # Send an email to the customer
-        deliver_received_order_email
+        #deliver_received_order_email
       end
 
       # We're all good.
