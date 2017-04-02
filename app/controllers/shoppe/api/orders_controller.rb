@@ -24,7 +24,19 @@ module Shoppe
         params[:quantity] ||= 1
         @product = fetch_product params[:product_id]
         @order.order_items.add_item(@product, params[:quantity].to_i) 
-        @order = current_order
+        @order = Shoppe::Order.find(params[:id])
+        render 'show'
+      end
+
+      def remove
+        if params[:id].nil?
+          params[:id] = current_order[:id]
+        end
+        @order = Shoppe::Order.find(params[:id])
+
+        product = fetch_product params[:product_id]
+        item = @order.order_items.select{|e| e.ordered_item_id == product.id}
+        item.remove
         @order = Shoppe::Order.find(params[:id])
         render 'show'
       end

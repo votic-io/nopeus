@@ -67,6 +67,7 @@ Shoppe::Engine.routes.draw do
       collection do
         get 'current'
         post 'add'
+        post 'remove'
         post 'current/reset' => 'orders#current_reset'
       end
       member do
