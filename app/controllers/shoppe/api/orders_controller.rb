@@ -41,6 +41,32 @@ module Shoppe
         render 'show'
       end
 
+      def increase
+        if params[:id].nil?
+          params[:id] = current_order[:id]
+        end
+        @order = Shoppe::Order.find(params[:id])
+
+        product = fetch_product params[:product_id]
+        item = @order.order_items.select{|e| e.ordered_item_id == product.id}.first
+        item.increase!
+        @order = Shoppe::Order.find(params[:id])
+        render 'show'
+      end
+
+      def decrease
+        if params[:id].nil?
+          params[:id] = current_order[:id]
+        end
+        @order = Shoppe::Order.find(params[:id])
+
+        product = fetch_product params[:product_id]
+        item = @order.order_items.select{|e| e.ordered_item_id == product.id}.first
+        item.decrease!
+        @order = Shoppe::Order.find(params[:id])
+        render 'show'
+      end
+
       def delete
         @order = Shoppe::Order.find(params[:id])
         @order.destroy

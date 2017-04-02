@@ -68,6 +68,8 @@ Shoppe::Engine.routes.draw do
         get 'current'
         post 'add'
         post 'remove'
+        post 'increase'
+        post 'decrease'
         post 'current/reset' => 'orders#current_reset'
       end
       member do
