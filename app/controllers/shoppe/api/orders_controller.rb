@@ -35,7 +35,7 @@ module Shoppe
         @order = Shoppe::Order.find(params[:id])
 
         product = fetch_product params[:product_id]
-        item = @order.order_items.select{|e| e.ordered_item_id == product.id}
+        item = @order.order_items.select{|e| e.ordered_item_id == product.id}.first
         item.remove
         @order = Shoppe::Order.find(params[:id])
         render 'show'
