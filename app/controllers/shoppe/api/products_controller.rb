@@ -16,7 +16,7 @@ module Shoppe
                           .where('shoppe_product_categorizations.product_category_id = ?', pc.id)
         end
 
-        @products_paged = @products_paged.page(params[:page])
+        @products_paged = @products_paged
         
         @products = @products_paged
 
