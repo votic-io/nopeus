@@ -75,6 +75,9 @@ module Shoppe
       def confirming
         @order = Shoppe::Order.find(params[:id])
         @order.attributes = params.permit(:first_name, :last_name, :company, :billing_address1, :billing_address2, :billing_address3, :billing_address4, :billing_country_id, :billing_postcode, :email_address, :phone_number, :delivery_name, :delivery_address1, :delivery_address2, :delivery_address3, :delivery_address4, :delivery_postcode, :delivery_country_id, :separate_delivery_address)
+        unless params[:payment_amount].nil?
+          @order.properties[:payment_amount] = params[:payment_amount]
+        end
         @order.ip_address = params[:ip]
         @order.proceed_to_confirm
         puts @order.errors.to_a
