@@ -11,7 +11,7 @@ module Shoppe
 
     	def current
     		@order = current_order
-        @errors = []
+        @errors = {}
         render 'show'
     	end
 
@@ -80,14 +80,14 @@ module Shoppe
         end
         @order.ip_address = params[:ip]
         @order.proceed_to_confirm
-        puts @order.errors.to_a
         @errors = JSON.parse(@order.errors.to_json)
         render 'show'
       end
 
       def confirm
         @order = Shoppe::Order.find(params[:id])
-        @order.confirm!
+        @order.confir
+      !
         render 'show'
       end
 
