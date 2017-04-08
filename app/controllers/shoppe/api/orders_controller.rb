@@ -78,6 +78,9 @@ module Shoppe
         unless params[:payment_amount].nil?
           @order.properties[:payment_amount] = params[:payment_amount]
         end
+        unless params[:order_time].nil?
+          @order.properties[:order_time] = params[:order_time]
+        end
         @order.ip_address = params[:ip]
         @order.proceed_to_confirm
         @errors = JSON.parse(@order.errors.to_json)
