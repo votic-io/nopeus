@@ -68,6 +68,15 @@ module Shoppe
       attachments.for('image')
     end
 
+    def flat_children
+      result = []
+      result += self.children
+      self.children.each do |child|
+        result += child.flat_children
+      end
+      result
+    end
+
     private
 
     def set_permalink

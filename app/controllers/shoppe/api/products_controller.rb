@@ -13,7 +13,7 @@ module Shoppe
         elsif params[:category_permalink].present?
         pc = Shoppe::ProductCategory.find_by(permalink: params[:category_permalink].split('/').last)
         @products_paged = @products_paged
-                          .where('shoppe_product_categorizations.product_category_id = ?', pc.id)
+                          .where('shoppe_product_categorizations.product_category_id IN (?)', ([pc]+pc.flat_children).collect{|e| e.id})
         end
 
         @products_paged = @products_paged
