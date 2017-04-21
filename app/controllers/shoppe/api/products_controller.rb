@@ -17,11 +17,9 @@ module Shoppe
         end
 
         if params[:limit].present?
-          @products_paged.limit(params[:limit].to_i)
+          @products_paged = @products_paged.limit(params[:limit].to_i)
         end
 
-        @products_paged = @products_paged
-        
         @products = @products_paged
 
 		  	render 'index'
