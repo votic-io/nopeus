@@ -160,34 +160,93 @@ module Shoppe
       header = spreadsheet.row(1)
       (2..spreadsheet.last_row).each do |i|
         row = Hash[[header, spreadsheet.row(i)].transpose]
-
+        puts row
         # Don't import products where the name is blank
         next if row['name'].nil?
         if product = where(name: row['name']).take
           # Dont import products with the same name but update quantities
-          qty = row['qty'].to_i
-          if qty > 0
-            product.stock_level_adjustments.create!(description: I18n.t('shoppe.import'), adjustment: qty)
+          if row['qty'].nil?
+            product.stock_control = false
+          else
+            qty = row['qty'].to_i
+            if qty > 0
+              product.stock_level_adjustments.create!(description: I18n.t('shoppe.import'), adjustment: qty)
+            end
           end
         else
           product = new
           product.name = row['name']
           product.sku = row['sku']
-          product.description = row['description']
-          product.short_description = row['short_description']
-          product.weight = row['weight']
+          product.description = row['description'].nil? ? '' : row['description']
+          product.short_description = row['short_description'].nil? ? '' : row['short_description']
+          product.weight = row['weight'].nil? ? 0 : row['weight']
           product.price = row['price'].nil? ? 0 : row['price']
           product.permalink = row['permalink']
 
           product.product_categories << begin
-            Shoppe::ProductCategory.find_or_initialize_by(name: row['category_name'])
+            puts row['category_path']
+            arr = row['category_path'].split('/')
+            puts arr
+            if arr[0] != 'Categories'
+              arr.insert(0, 'Categories')
+            end
+            parent = nil
+            c = nil
+            arr.each do |name|
+              if parent.nil?
+                parent = Shoppe::ProductCategory.find_or_initialize_by(name: name)  
+                c = parent
+              else
+                c = parent.children.where(name: name).first
+                if c.nil?
+                  c = Shoppe::ProductCategory.find_or_initialize_by(name: name)    
+                  c.parent = parent
+                  c.save
+                end
+                parent = c
+              end
+            end
+            c
           end
-          
+
+          if row['qty'].nil?
+            product.stock_control = false
+          else
+            qty = row['qty'].to_i
+            if qty > 0
+              product.stock_level_adjustments.create!(description: I18n.t('shoppe.import'), adjustment: qty)
+            end
+          end
+
           product.save!
 
-          qty = row['qty'].to_i
-          if qty > 0
-            product.stock_level_adjustments.create!(description: I18n.t('shoppe.import'), adjustment: qty)
+          first = true
+          unless row['option_values_1'].nil?
+            row['option_values_1'].split('-').each do |value1|
+              value1 = value1.strip
+              op1 = Shoppe::OptionValue.where(option_type: row['option_type_1'], value: value1).first_or_create
+              
+              variant_name = "#{row['sku']}_#{value1}"
+              unless row['option_values_2'].nil?
+                row['option_values_2'].split('-').each do |value2|
+                  value2 = value2.strip
+                  op2 = Shoppe::OptionValue.where(option_type: row['option_type_2'], value: value2).first_or_create
+                  variant_name = "#{row['sku']}_#{value1}_#{value2}"
+                  variant = product.variants.create(name: variant_name, sku: "#{row['sku']}_#{variant_name}", price: product.price, weight: product.weight, default: first)
+                  variant.option_values << op1
+                  variant.option_values << op2
+                  variant.stock_control = product.stock_control
+                  variant.save
+                end
+              else
+                variant = product.variants.create(name: variant_name, sku: "#{row['sku']}_#{variant_name}", price: product.price, weight: product.weight, default: first)
+                variant.option_values << op1
+                variant.stock_control = product.stock_control
+                variant.save
+              end
+              first = false
+            end
+            product.save!
           end
         end
       end

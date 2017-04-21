@@ -3,8 +3,10 @@ module Shoppe
     # Validations
     validate { errors.add :base, :can_belong_to_root if parent && parent.parent }
 
-    has_many :option_values, class_name: 'Shoppe::OptionValue', foreign_key: 'option_value_id'
+    has_many :product_option_values, dependent: :destroy, class_name: 'Shoppe::ProductOptionValue', inverse_of: :product
     
+    has_many :option_values, class_name: 'Shoppe::OptionValue', through: :product_option_values
+
     # Variants of the product
     has_many :variants, class_name: 'Shoppe::Product', foreign_key: 'parent_id', dependent: :destroy
 
