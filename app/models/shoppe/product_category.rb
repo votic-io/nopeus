@@ -42,9 +42,9 @@ module Shoppe
 
     def combined_permalink
       if permalink_includes_ancestors && ancestral_permalink.present?
-        "#{ancestral_permalink}/#{permalink}"
+        "#{self.ancestral_permalink}/#{self.permalink}"
       else
-        permalink
+        self.permalink
       end
     end
 
