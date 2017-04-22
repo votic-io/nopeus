@@ -209,6 +209,8 @@ module Shoppe
             c
           end
 
+          product.featured = !row['featured'].nil?
+
           if row['qty'].nil?
             product.stock_control = false
           else
