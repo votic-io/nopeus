@@ -254,6 +254,31 @@ module Shoppe
       end
     end
 
+    def import_image
+      require 'aws-sdk'
+
+      ak = ENV['AWS_AK']
+      sk = ENV['AWS_SK']
+      bk = ENV['AWS_BUCKET']
+
+      Aws.config.update({
+      region: 'us-east-1',
+      credentials: Aws::Credentials.new(ak, sk),
+      })
+
+      s3 = Aws::S3::Resource.new(region:'us-east-1')
+
+      bucket = s3.bucket(bk)
+      obj = bucket.object("#{Thread.current[:application][:name]}/upload/#{self.sku}.jpg")
+
+      if obj.exists?
+        image = open(obj.public_url)
+        self.default_image_file = image
+
+        self.save
+      end
+    end
+
     def self.open_spreadsheet(file)
       case File.extname(file.original_filename)
       when '.csv' then Roo::CSV.new(file.path)

@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rabl'
   s.add_dependency 'oj'
   s.add_dependency 'dalli'
+  s.add_dependency 'aws-sdk', '~> 2'
 
   s.add_development_dependency 'coffee-rails', '~> 4'
   s.add_development_dependency 'sass-rails', '~> 4.0'
