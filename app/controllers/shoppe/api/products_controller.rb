@@ -16,6 +16,10 @@ module Shoppe
                           .where('shoppe_product_categorizations.product_category_id IN (?)', ([pc]+pc.flat_children).collect{|e| e.id})
         end
 
+        if params[:featured].present?
+          @products_paged = @products_paged.featured
+        end
+
         if params[:limit].present?
           @products_paged = @products_paged.limit(params[:limit].to_i)
         end
