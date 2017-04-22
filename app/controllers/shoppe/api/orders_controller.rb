@@ -86,8 +86,7 @@ module Shoppe
 
       def confirm
         @order = Shoppe::Order.find(params[:id])
-        @order.confir
-      !
+        @order.confirm!
         render 'show'
       end
 
