@@ -226,13 +226,13 @@ module Shoppe
           unless row['option_values_1'].nil?
             row['option_values_1'].split('-').each do |value1|
               value1 = value1.strip
-              op1 = Shoppe::OptionValue.where(option_type: row['option_type_1'], value: value1).first_or_create
+              op1 = Shoppe::OptionValue.where(option_type: row['option_type_1'].strip, value: value1).first_or_create
               
               variant_name = "#{row['sku']}_#{value1}"
               unless row['option_values_2'].nil?
                 row['option_values_2'].split('-').each do |value2|
                   value2 = value2.strip
-                  op2 = Shoppe::OptionValue.where(option_type: row['option_type_2'], value: value2).first_or_create
+                  op2 = Shoppe::OptionValue.where(option_type: row['option_type_2'].strip, value: value2).first_or_create
                   variant_name = "#{row['sku']}_#{value1}_#{value2}"
                   variant = product.variants.create(name: variant_name, sku: "#{row['sku']}_#{variant_name}", price: product.price, weight: product.weight, default: first)
                   variant.option_values << op1
@@ -248,6 +248,7 @@ module Shoppe
               end
               first = false
             end
+            product.import_image
             product.save!
           end
         end
