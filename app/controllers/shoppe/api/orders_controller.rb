@@ -76,7 +76,7 @@ module Shoppe
         @order = Shoppe::Order.find(params[:id])
         @order.attributes = params.permit(:first_name, :last_name, :company, :billing_address1, :billing_address2, :billing_address3, :billing_address4, :billing_country_id, :billing_postcode, :email_address, :phone_number, :delivery_name, :delivery_address1, :delivery_address2, :delivery_address3, :delivery_address4, :delivery_postcode, :delivery_country_id, :separate_delivery_address)
         params.select{|k| !k.index('properties_').nil?}.each do |k,v|
-          @order.properties[k.split('properties_'[1])] = v
+          @order.properties[k.split('properties_')[1]] = v
         end
         @order.ip_address = params[:ip]
         @order.proceed_to_confirm
