@@ -199,8 +199,9 @@ module Shoppe
               else
                 c = parent.children.where(name: name).first
                 if c.nil?
-                  c = Shoppe::ProductCategory.find_or_initialize_by(name: name)    
+                  c = Shoppe::ProductCategory.new(name: name)    
                   c.parent = parent
+                  c.save
                   c.save
                 end
                 parent = c

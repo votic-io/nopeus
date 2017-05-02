@@ -16,7 +16,7 @@ Nopeus is a fork from the unsupported Shoppe gem (http://tryshoppe.com/). Nopeus
 
 ## Getting Started
 
-The Nopeus gem provides the core framework for the store backend. As for the frontend, you can use our Edesa gem to have a full working client. A basic storefront structure will be provided but you are free to create your own storefront which your customers will use to purchase products. In addition to
+The Nopeus gem provides the core framework for the store backend. As for the frontend, you can use our Client gem (https://github.com/votic-io/nopeus-client) to have a full working client. A basic storefront structure will be provided but you are free to create your own storefront which your customers will use to purchase products. In addition to
 creating the UI for the frontend, we'll provide some basic payment gateway integrations, but you might need to create your own dpending on the country you are based.
 
 ### Installing into a new Rails application
