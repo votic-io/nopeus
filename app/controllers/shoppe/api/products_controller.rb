@@ -5,7 +5,7 @@ module Shoppe
     	include Shoppe::ProductsHelper
 
     	def index
-    		@products_paged = Shoppe::Product.all.includes(:product_categories, :variants, :translations)
+    		@products_paged = Shoppe::Product.root.includes(:product_categories, :variants, :translations)
 
         if params[:category_id].present?
         @products_paged = @products_paged
