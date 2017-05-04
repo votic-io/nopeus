@@ -5,7 +5,7 @@ module Shoppe
     	include Shoppe::ProductsHelper
 
     	def index
-    		@products_paged = Shoppe::Product.root.ordered.includes(:product_categories, :variants)
+    		@products_paged = Shoppe::Product.root.includes(:product_categories, :variants)
 
         if params[:category_id].present?
         @products_paged = @products_paged
@@ -17,12 +17,9 @@ module Shoppe
         end
 
         if params[:featured].present?
-          puts "featured"
-          puts params
           @products_paged = @products_paged.featured.order(:featured_position)
-
-          puts @products_paged.first.to_json
-          puts @products_paged.last.to_json
+        else
+          @products_paged = @products_paged.ordered
         end
 
         if params[:limit].present?
@@ -43,7 +40,6 @@ module Shoppe
   			params[:quantity] ||= 1
   			@product = fetch_product params[:id]
   			current_order.order_items.add_item(@product, params[:quantity].to_i) 
-  			puts current_order.order_items
   			render 'show'
   		end
     end
