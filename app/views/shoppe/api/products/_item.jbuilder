@@ -5,7 +5,8 @@ json.option_values p.option_values do |ov|
 end
 json.images p.attachments do |i|
 	json.(i, :application_id, :created_at, :file_name, :file_size, :file_type, :id, :parent_id, :parent_type, :role, :token, :updated_at)
-	json.(i.file, :url, :thumb)
+	json.(i.file, :url)
+	json.file i.file
 end
 json.product_categories p.product_categories do |pc|
 		json.partial! 'shoppe/api/product_categories/item', p: pc
