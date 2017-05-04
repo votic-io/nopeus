@@ -11,8 +11,11 @@ module Shoppe
         @products_paged = @products_paged
                           .where('shoppe_product_categorizations.product_category_id = ?', params[:category_id])
         elsif params[:category_permalink].present?
-        pc = Shoppe::ProductCategory.find_by(permalink: params[:category_permalink].split('/').last)
-        @products_paged = @products_paged
+          cp_arr = params[:category_permalink].split('/')
+          permalink = cp_arr.pop
+          ancestral_permalink = cp_arr*'/'
+          pc = Shoppe::ProductCategory.find_by(ancestral_permalink: ancestral_permalink, permalink: permalink)
+          @products_paged = @products_paged
                           .where('shoppe_product_categorizations.product_category_id IN (?)', ([pc]+pc.flat_children).collect{|e| e.id})
         end
 
