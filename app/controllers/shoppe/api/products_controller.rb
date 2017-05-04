@@ -17,7 +17,7 @@ module Shoppe
         end
 
         if params[:featured].present?
-          @products_paged = @products_paged.featured
+          @products_paged = @products_paged.featured.order(:featured_position)
         end
 
         if params[:limit].present?
