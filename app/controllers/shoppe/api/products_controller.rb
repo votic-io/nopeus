@@ -5,7 +5,7 @@ module Shoppe
     	include Shoppe::ProductsHelper
 
     	def index
-    		@products_paged = Shoppe::Product.root.includes(:product_categories, :variants, :translations)
+    		@products_paged = Shoppe::Product.root.ordered.includes(:product_categories, :variants)
 
         if params[:category_id].present?
         @products_paged = @products_paged
@@ -17,7 +17,7 @@ module Shoppe
         end
 
         if params[:featured].present?
-          @products_paged = @products_paged.featured.order(:featured_position)
+          @products_paged = @products_paged.featured.reorder(:featured_position)
         else
           @products_paged = @products_paged.ordered
         end
