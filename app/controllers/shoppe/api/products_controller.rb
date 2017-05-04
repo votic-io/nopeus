@@ -17,6 +17,8 @@ module Shoppe
         end
 
         if params[:featured].present?
+          puts "featured"
+          puts params
           @products_paged = @products_paged.featured.order(:featured_position)
         end
 
