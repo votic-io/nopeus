@@ -20,6 +20,9 @@ module Shoppe
           puts "featured"
           puts params
           @products_paged = @products_paged.featured.order(:featured_position)
+
+          puts @products_paged.first.to_json
+          puts @products_paged.last.to_json
         end
 
         if params[:limit].present?
