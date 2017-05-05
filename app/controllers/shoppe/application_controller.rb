@@ -17,29 +17,14 @@ module Shoppe
     private
 
     def setup_application
-      unless params[:app_token].nil?
-        Thread.current[:app_token] = params[:app_token]
-      else
-        Thread.current[:app_token] = session[:app_token]
-      end
+      Thread.current[:app_token] ||= params[:app_token]
+      Thread.current[:app_token] ||= session[:app_token]
+      
       Thread.current[:application] = Shoppe::Application.current.first
       if Thread.current[:application].nil?
         session[:app_token] = nil
         session[:shoppe_user_id] = nil
       end
-      puts "----------------------------------------------"
-      puts params[:app_token]
-      puts "----------------------------------------------"
-      puts session[:app_token]
-      puts "----------------------------------------------"
-      puts Thread.current[:app_token]
-      puts "----------------------------------------------"
-      puts Thread.current[:application].to_json
-      puts "----------------------------------------------"
-      puts Shoppe::Application.current.first.to_json
-      puts "----------------------------------------------"
-      puts current_user.to_json
-      puts "----------------------------------------------"
     end
 
     def login_required

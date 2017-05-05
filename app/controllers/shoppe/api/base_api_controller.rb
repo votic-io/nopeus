@@ -10,6 +10,18 @@ module Shoppe
 
 
       private
+        def setup_application
+          Thread.current[:app_token] ||= params[:app_token]
+          Thread.current[:app_token] ||= session[:app_token]
+          Thread.current[:app_token] ||= user_session[:app_token]
+          
+          Thread.current[:application] = Shoppe::Application.current.first
+          if Thread.current[:application].nil?
+            session[:app_token] = nil
+            session[:shoppe_user_id] = nil
+          end
+        end
+
         def prevent_missing_token
           if Thread.current[:application].nil?
             render json: {status: 403, message: 'Unauthorized access'}, status: 403
@@ -57,10 +69,14 @@ module Shoppe
         end
 
         def collect_session_id
-          puts "-------------session_id-----------------------------------------"
-          puts params[:session_id]
-          puts "------------------------------------------------------"
           Thread.current[:session_id] = params[:session_id]
+          Thread.current[:session_id] ||= request.session_options[:id]
+        end
+
+        def current_user
+          user_id = user_session[:user_id]
+
+          Shoppe::User.where(id: user_id).first
         end
 
         def current_order
@@ -77,7 +93,7 @@ module Shoppe
 
         def has_order?
           !!(
-            user_session[:order_id] &&
+            user_session[:user_id] &&
             @current_order = Shoppe::Order.includes(:order_items => :ordered_item).find_by_id(user_session[:order_id])
           )
         end

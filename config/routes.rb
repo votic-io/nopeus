@@ -77,6 +77,13 @@ Shoppe::Engine.routes.draw do
         post 'confirm'
       end
     end
+    resources :users do
+      collection do
+        get 'current'
+        post 'login'
+        get 'login'
+      end
+    end
     resources :countries do
     end
   end
