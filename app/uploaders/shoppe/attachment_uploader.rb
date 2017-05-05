@@ -33,4 +33,11 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
   version :v_standard, if: :image? do
     process resize_and_pad: [600, 900]
   end
+
+  version :large, if: :image? do
+    process resize_and_pad: [1800, 1800]
+  end
+  version :v_large, if: :image? do
+    process resize_and_pad: [1200, 1800]
+  end
 end
