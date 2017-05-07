@@ -26,6 +26,8 @@ module Shoppe
           if Thread.current[:application].nil?
             render json: {status: 403, message: 'Unauthorized access'}, status: 403
           end
+          puts "------------------------------------params"
+          puts params
         end
 
         def catch_exceptions
