@@ -83,6 +83,8 @@ module Shoppe
 
         def current_order
           @current_order ||= begin
+            puts"------------HAS ORDER---------------"
+            puts has_order?
             if has_order?
               @current_order
             else
@@ -94,8 +96,11 @@ module Shoppe
         end
 
         def has_order?
+          puts user_session[:user_id]
+          puts user_session[:order_id]
+          Shoppe::Order.includes(:order_items => :ordered_item).find_by_id(user_session[:order_id])
           !!(
-            user_session[:user_id] &&
+            user_session[:order_id] &&
             @current_order = Shoppe::Order.includes(:order_items => :ordered_item).find_by_id(user_session[:order_id])
           )
         end
