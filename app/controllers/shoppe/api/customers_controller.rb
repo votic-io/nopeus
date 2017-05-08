@@ -4,14 +4,18 @@ module Shoppe
 
       def login
         @customer = Shoppe::Customer.authenticate(params[:email_address], params[:password])
-        user_session_write :customer_id, @customer.id
-        
+        if @customer
+          user_session_write :customer_id, @customer.id
+        else
+          @customer = Shoppe::Customer.new
+          @errors = {'invalid' => ["Incorrect email or password"]}
+        end
         render 'show'
       end
 
       def logout
         user_session_write :customer_id, nil
-        
+        @customer = Shoppe::Customer.new
         render 'show'
       end
 
