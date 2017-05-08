@@ -90,6 +90,7 @@ Shoppe::Engine.routes.draw do
         post 'login'
         post 'logout'
         get 'logout'
+        #get 'create'
       end
     end
     resources :countries do

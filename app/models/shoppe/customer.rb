@@ -3,6 +3,9 @@ module Shoppe
     include ApplicationModel
     has_secure_password
 
+    # Customers can have properties
+    key_value_store :properties
+
     EMAIL_REGEX = /\A\b[A-Z0-9\.\_\%\-\+]+@(?:[A-Z0-9\-]+\.)+[A-Z]{2,6}\b\z/i
     PHONE_REGEX = /\A[+?\d\ \-x\(\)]{7,}\z/
 
@@ -46,8 +49,8 @@ module Shoppe
     def reset_password!
       self.password = SecureRandom.hex(8)
       self.password_confirmation = password
-      save!
-      Shoppe::UserMailer.new_password(self).deliver
+      self.save
+      #Shoppe::UserMailer.new_password(self).deliver
     end
 
     # Attempt to authenticate a user based on email_address & password. Returns the
