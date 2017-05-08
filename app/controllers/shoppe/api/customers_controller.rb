@@ -4,9 +4,13 @@ module Shoppe
 
       def login
         @customer = Shoppe::Customer.authenticate(params[:email_address], params[:password])
+        puts "--------------------------------------customer"
+        puts @customer
         if @customer
+          puts "OK"
           user_session_write :customer_id, @customer.id
         else
+          puts "NOK"
           @customer = Shoppe::Customer.new
           @errors = {'invalid' => ["Incorrect email or password"]}
         end
@@ -16,22 +20,6 @@ module Shoppe
       def logout
         user_session_write :customer_id, nil
         @customer = Shoppe::Customer.new
-        render 'show'
-      end
-
-      def register
-        @customer = Shoppe::Customer.create(
-          email: params[:email_address], 
-          password: params[:password], 
-          password_confirmation: params[:password_confirmation], 
-          first_name: params[:first_name], 
-          last_name: params[:last_name], 
-          phone: params[:phone])
-        @errors = JSON.parse(@customer.errors.to_json)
-        unless @customer.errors.any?
-          @customer = Shoppe::Customer.authenticate(params[:email_address], params[:password])
-          user_session_write :customer_id, @customer.id
-        end
         render 'show'
       end
 
@@ -57,12 +45,12 @@ module Shoppe
 
       def create
         @customer = Shoppe::Customer.create(
-          email: params[:email_address], 
+          email_address: params[:email_address], 
           password: params[:password], 
           password_confirmation: params[:password_confirmation], 
           first_name: params[:first_name], 
           last_name: params[:last_name], 
-          phone: params[:phone])
+          phone_number: params[:phone_number])
         @errors = JSON.parse(@customer.errors.to_json)
         unless @customer.errors.any?
           @customer = Shoppe::Customer.authenticate(params[:email_address], params[:password])
@@ -92,7 +80,7 @@ module Shoppe
       private
 
       def safe_params
-        params.permit(:first_name, :last_name, :company, :email, :phone, :mobile)
+        params.permit(:first_name, :last_name, :company, :email_address, :phone_number, :mobile)
       end
     end
   end
