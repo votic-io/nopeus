@@ -56,12 +56,19 @@ module Shoppe
       end
 
       def create
-        @customer = Shoppe::Customer.new(safe_params)
-        if @customer.save
-          redirect_to @customer, flash: { notice: t('shoppe.customers.created_successfully') }
-        else
-          render action: 'new'
+        @customer = Shoppe::Customer.create(
+          email: params[:email_address], 
+          password: params[:password], 
+          password_confirmation: params[:password_confirmation], 
+          first_name: params[:first_name], 
+          last_name: params[:last_name], 
+          phone: params[:phone])
+        @errors = JSON.parse(@customer.errors.to_json)
+        unless @customer.errors.any?
+          @customer = Shoppe::Customer.authenticate(params[:email_address], params[:password])
+          user_session_write :customer_id, @customer.id
         end
+        render 'show'
       end
 
       def update
@@ -85,7 +92,7 @@ module Shoppe
       private
 
       def safe_params
-        params[:customer].permit(:first_name, :last_name, :company, :email, :phone, :mobile)
+        params.permit(:first_name, :last_name, :company, :email, :phone, :mobile)
       end
     end
   end

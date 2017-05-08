@@ -88,11 +88,8 @@ Shoppe::Engine.routes.draw do
       collection do
         get 'current'
         post 'login'
-        get 'login'
         post 'logout'
         get 'logout'
-        post 'register'
-        get 'register'
       end
     end
     resources :countries do
