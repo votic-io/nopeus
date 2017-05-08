@@ -84,6 +84,17 @@ Shoppe::Engine.routes.draw do
         get 'login'
       end
     end
+    resources :customers do
+      collection do
+        get 'current'
+        post 'login'
+        get 'login'
+        post 'logout'
+        get 'logout'
+        post 'register'
+        get 'register'
+      end
+    end
     resources :countries do
     end
   end

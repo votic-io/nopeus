@@ -81,6 +81,12 @@ module Shoppe
           Shoppe::User.where(id: user_id).first
         end
 
+        def current_customer
+          customer_id = user_session[:customer_id]
+
+          Shoppe::Customer.where(id: customer_id).first
+        end
+
         def current_order
           @current_order ||= begin
             puts"------------HAS ORDER---------------"
