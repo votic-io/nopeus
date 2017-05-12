@@ -38,9 +38,14 @@ module Shoppe
       end
 
       def show
-        @customer ||= Shoppe::Customer.find(params[:id])
-        #@addresses = @customer.addresses.ordered.load
-        #@orders = @customer.orders.ordered.load
+        unless params[:id].index('@').nil?
+          @customer ||= Shoppe::Customer.where(email_address: params[:id]).first
+          if @customer.nil?
+            @customer = Shoppe::Customer.new
+          end
+        else
+          @customer ||= Shoppe::Customer.find(params[:id])
+        end
       end
 
       def create
@@ -60,7 +65,7 @@ module Shoppe
         unless @customer.errors.any?
           @customer.properties['source'] = params['properties_source']
           @customer.save
-          
+
           @customer = Shoppe::Customer.authenticate(params[:email_address], params[:password])
           user_session_write :customer_id, @customer.id
 
