@@ -90,6 +90,7 @@ Shoppe::Engine.routes.draw do
         post 'login'
         post 'logout'
         get 'logout'
+        get 'collect'
         #get 'create'
       end
     end
