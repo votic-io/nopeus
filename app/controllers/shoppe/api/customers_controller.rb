@@ -84,7 +84,7 @@ module Shoppe
 
       def change_password
         id = params[:token].split('_')[0]
-        password_digest = params[:token].split('_')[0]
+        password_digest = params[:token].split('_')[1]
 
         @customer = Shoppe::Customer.where(id: id, password_digest: password_digest).first
         @customer.password = params[:password]
