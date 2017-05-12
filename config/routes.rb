@@ -91,6 +91,7 @@ Shoppe::Engine.routes.draw do
         post 'logout'
         get 'logout'
         get 'collect'
+        post 'change_password'
         #get 'create'
       end
     end

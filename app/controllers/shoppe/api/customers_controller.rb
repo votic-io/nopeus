@@ -82,6 +82,16 @@ module Shoppe
         render 'show'
       end
 
+      def change_password
+        id = params[:token].split('_')[0]
+        password_digest = params[:token].split('_')[0]
+
+        @customer = Shoppe::Customer.where(id: id, password_digest: password_digest).first
+        @customer.password = params[:password]
+        @customer.password_confirmation = params[:password_confirmation]
+        @customer.save
+      end
+
       def update
         if @customer.update(safe_params)
           redirect_to @customer, flash: { notice: t('shoppe.customers.updated_successfully') }
