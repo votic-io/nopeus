@@ -58,6 +58,9 @@ module Shoppe
           phone_number: params[:phone_number])
         @errors = JSON.parse(@customer.errors.to_json)
         unless @customer.errors.any?
+          @customer.properties['source'] = params['properties_source']
+          @customer.save
+          
           @customer = Shoppe::Customer.authenticate(params[:email_address], params[:password])
           user_session_write :customer_id, @customer.id
 
