@@ -90,6 +90,8 @@ module Shoppe
         @customer.password = params[:password]
         @customer.password_confirmation = params[:password_confirmation]
         @customer.save
+
+        render 'show'
       end
 
       def update
