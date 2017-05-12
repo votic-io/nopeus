@@ -38,12 +38,16 @@ module Shoppe
       end
 
       def show
+        puts params[:id]
         unless params[:id].index('@').nil?
+          puts "here"
           @customer ||= Shoppe::Customer.where(email_address: params[:id]).first
           if @customer.nil?
+            puts "there"
             @customer = Shoppe::Customer.new
           end
         else
+          puts "apere"
           @customer ||= Shoppe::Customer.find(params[:id])
         end
       end
