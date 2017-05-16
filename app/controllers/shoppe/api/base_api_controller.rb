@@ -78,7 +78,11 @@ module Shoppe
         def current_user
           user_id = user_session[:user_id]
 
-          Shoppe::User.where(id: user_id).first
+          user = Shoppe::User.where(id: user_id).first
+          if user.nil?
+            user = Shoppe::User.new
+          end
+          user
         end
 
         def current_customer
