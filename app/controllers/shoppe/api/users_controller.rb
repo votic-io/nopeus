@@ -16,14 +16,26 @@ module Shoppe
 
       def login
         @user = Shoppe::User.authenticate(params[:email_address], params[:password])
-        user_session_write :user_id, @user.id
-        
-        application = Shoppe::Application.find(@user.application_id)
-        
-        Thread.current[:app_token] = application.token
-        user_session_write :app_token, application.token
-        Thread.current[:application] = application
+        puts "--------------------------------------customer"
+        puts @user
+        if @customer
+          puts "OK"
+          user_session_write :user_id, @user.id
 
+          Thread.current[:app_token] = application.token
+          user_session_write :app_token, application.token
+          Thread.current[:application] = application
+        else
+          puts "NOK"
+          @customer = Shoppe::User.new
+          @errors = {'invalid' => ["Incorrect email or password"]}
+        end
+        render 'show'
+      end
+
+      def logout
+        user_session_write :user_id, nil
+        @user = Shoppe::User.new
         render 'show'
       end
 

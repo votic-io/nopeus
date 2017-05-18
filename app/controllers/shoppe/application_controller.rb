@@ -4,6 +4,7 @@ module Shoppe
 
     before_filter :setup_application
     before_filter :login_required
+    around_filter :catch_exceptions
 
     rescue_from ActiveRecord::DeleteRestrictionError do |e|
       redirect_to request.referer || root_path, alert: e.message
@@ -15,6 +16,25 @@ module Shoppe
     end
 
     private
+
+    def catch_exceptions
+      yield
+      rescue => exception
+      puts "Caught exception! #{exception}" 
+      puts params
+      print exception.backtrace.join("\n")
+
+      respond_to do |format|
+        #format.json
+        format.html { render json: {:data => exception}, :status => 500}
+        
+        if params[:callback]
+          format.js { render :json => {:data => exception}, :status => 500, :callback => params[:callback] }
+        else
+          format.json { render json: {:data => exception}, :status => 500}
+        end
+      end
+    end
 
     def setup_application
       Thread.current[:app_token] ||= params[:app_token]
