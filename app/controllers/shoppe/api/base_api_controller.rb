@@ -2,6 +2,7 @@ module Shoppe
   module Api
     class BaseApiController < ApplicationController
       before_filter :collect_session_id
+      before_filter :setup_application
       before_filter :prevent_missing_token
       around_filter :catch_exceptions
       skip_before_filter :login_required

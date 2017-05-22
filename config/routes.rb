@@ -72,10 +72,14 @@ Shoppe::Engine.routes.draw do
         post 'decrease'
         post 'current/reset' => 'orders#current_reset'
         get 'notify'
+        get 'pending'
       end
       member do
         patch 'confirming'
         post 'confirm'
+        post 'accept'
+        post 'reject'
+        post 'ship'
       end
     end
     resources :users do

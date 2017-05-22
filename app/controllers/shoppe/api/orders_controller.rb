@@ -15,16 +15,6 @@ module Shoppe
         render 'show'
     	end
 
-      def notify
-        @order = Shoppe::Order.pending.order(received_at: :asc).first
-        unless @order.nil?
-          @order.notify!
-        else
-          @order = Shoppe::Order.new
-        end
-        render 'show'
-      end
-
       def add
         if params[:id].nil?
           params[:id] = current_order[:id]
@@ -103,6 +93,39 @@ module Shoppe
       def confirm
         @order = Shoppe::Order.find(params[:id])
         @order.confirm!
+        render 'show'
+      end
+
+      def accept
+        @order = Shoppe::Order.find(params[:id])
+        @order.accept!
+        render 'show'
+      end
+
+      def reject
+        @order = Shoppe::Order.find(params[:id])
+        @order.reject!
+        render 'show'
+      end
+
+      def ship
+        @order = Shoppe::Order.find(params[:id])
+        @order.ship!
+        render 'show'
+      end
+
+      def pending
+        @orders = Shoppe::Order.pending.order(received_at: :asc)
+        render 'index'
+      end
+
+      def notify
+        @order = Shoppe::Order.accepted.order(accepted_at: :asc).first
+        unless @order.nil?
+          @order.notify!
+        else
+          @order = Shoppe::Order.new
+        end
         render 'show'
       end
 

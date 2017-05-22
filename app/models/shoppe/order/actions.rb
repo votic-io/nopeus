@@ -82,6 +82,11 @@ module Shoppe
       end
     end
 
+    def ship!()
+      self.status = 'shipped'
+      save!
+    end
+
     def deliver_accepted_order_email
       Shoppe::OrderMailer.accepted(self).deliver
     end
