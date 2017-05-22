@@ -14,8 +14,8 @@
         %dd= f.text_field :company, class: 'text'
     .splitContainer
       %dl.third
-        %dt= f.label :email, t('shoppe.customers.email')
-        %dd= f.email_field :email, class: 'text', :required => true
+        %dt= f.label :email_address, t('shoppe.customers.email_address')
+        %dd= f.email_field :email_address, class: 'text', :required => true
       %dl.third
         %dt= f.label :phone, t('shoppe.customers.phone')
         %dd= f.telephone_field :phone, class: 'text', :required => true

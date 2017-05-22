@@ -15,8 +15,8 @@
         %dd= @customer.company.blank? ? '-' : @customer.company
     .right
       %dl
-        %dt= t('shoppe.customers.email')
-        %dd= mail_to @customer.email
+        %dt= t('shoppe.customers.email_address')
+        %dd= mail_to @customer.email_address
         %dt= t('shoppe.customers.phone')
         %dd= @customer.phone
         %dt= t('shoppe.customers.mobile_phone')
