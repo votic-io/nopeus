@@ -15,6 +15,16 @@ module Shoppe
         render 'show'
     	end
 
+      def notify
+        @order = Shoppe::Order.pending.order(received_at: :asc).first
+        unless @order.nil?
+          @order.notify!
+        else
+          @order = Shoppe::Order.new
+        end
+        render 'show'
+      end
+
       def add
         if params[:id].nil?
           params[:id] = current_order[:id]

@@ -71,6 +71,7 @@ Shoppe::Engine.routes.draw do
         post 'increase'
         post 'decrease'
         post 'current/reset' => 'orders#current_reset'
+        get 'notify'
       end
       member do
         patch 'confirming'

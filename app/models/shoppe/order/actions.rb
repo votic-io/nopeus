@@ -49,6 +49,11 @@ module Shoppe
       true
     end
 
+    def notify!()
+      self.status = 'notified'
+      save!
+    end
+
     # Mark order as accepted
     #
     # @param user [Shoppe::User] the user who carried out this action
@@ -59,7 +64,7 @@ module Shoppe
         self.status = 'accepted'
         save!
         order_items.each(&:accept!)
-        deliver_accepted_order_email
+        #deliver_accepted_order_email
       end
     end
 
@@ -73,7 +78,7 @@ module Shoppe
         self.status = 'rejected'
         save!
         order_items.each(&:reject!)
-        deliver_rejected_order_email
+        #deliver_rejected_order_email
       end
     end
 

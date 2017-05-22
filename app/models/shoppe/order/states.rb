@@ -1,7 +1,7 @@
 module Shoppe
   class Order < ActiveRecord::Base
     # An array of all the available statuses for an order
-    STATUSES = %w(building confirming received accepted rejected shipped).freeze
+    STATUSES = %w(building confirming received notified accepted rejected shipped delivered).freeze
 
     # The Shoppe::User who accepted the order
     #
