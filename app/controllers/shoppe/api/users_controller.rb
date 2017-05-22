@@ -18,7 +18,7 @@ module Shoppe
         @user = Shoppe::User.authenticate(params[:email_address], params[:password])
         puts "--------------------------------------customer"
         puts @user
-        if @customer
+        if @user
           puts "OK"
           user_session_write :user_id, @user.id
 
@@ -27,7 +27,7 @@ module Shoppe
           Thread.current[:application] = application
         else
           puts "NOK"
-          @customer = Shoppe::User.new
+          @user = Shoppe::User.new
           @errors = {'invalid' => ["Incorrect email or password"]}
         end
         render 'show'
