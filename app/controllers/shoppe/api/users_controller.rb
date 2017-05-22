@@ -22,6 +22,7 @@ module Shoppe
           puts "OK"
           user_session_write :user_id, @user.id
 
+          application = Shoppe::Application.find(@user.application_id)
           Thread.current[:app_token] = application.token
           user_session_write :app_token, application.token
           Thread.current[:application] = application
