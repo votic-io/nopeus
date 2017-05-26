@@ -117,6 +117,11 @@ module Shoppe
         render action: 'index'
       end
 
+      def orders
+        @customer = Shoppe::Customer.find(params[:id])     
+        @orders = @customer.orders.received.order(received_at: :desc)
+      end
+
       private
 
       def safe_params

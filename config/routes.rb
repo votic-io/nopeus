@@ -99,6 +99,9 @@ Shoppe::Engine.routes.draw do
         post 'change_password'
         #get 'create'
       end
+      member do
+        get 'orders'
+      end
     end
     resources :countries do
     end
