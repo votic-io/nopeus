@@ -24,7 +24,7 @@ module Shoppe
 
     # The order can belong to a customer
     belongs_to :customer, class_name: 'Shoppe::Customer'
-    has_many :addresses, through: :customers, class_name: 'Shoppe::Address'
+    has_many :addresses, through: :customer, class_name: 'Shoppe::Address'
 
     # Validations
     validates :token, presence: true

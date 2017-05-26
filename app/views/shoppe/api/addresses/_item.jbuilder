@@ -1,0 +1,1 @@
+json.(a, :id, :application_id, :address1, :address2, :address3, :address4, :postcode)

@@ -76,9 +76,16 @@ module Shoppe
         @order = Shoppe::Order.find(params[:id])
         @order.attributes = params.permit(:first_name, :last_name, :company, :billing_address1, :billing_address2, :billing_address3, :billing_address4, :billing_country_id, :billing_postcode, :email_address, :phone_number, :delivery_name, :delivery_address1, :delivery_address2, :delivery_address3, :delivery_address4, :delivery_postcode, :delivery_country_id, :separate_delivery_address)
 
-        if params[:email].present?
-          customer = Shoppe::Customer.where(email: params[:email]).first_or_create
+        unless current_customer.nil?
+          customer = current_customer
           @order.customer = customer
+          if @order.billing_address1.present?
+            customer.addresses.build(address_type: 'billing', address1: @order.billing_address1, address2: @order.billing_address2, address3: @order.billing_address3, address4: @order.billing_address4, country_id: @order.billing_country_id, postcode: @order.billing_postcode)
+          end
+          if @order.delivery_address1.present?
+            customer.addresses.build(address_type: 'delivery', address1: @order.delivery_address1, address2: @order.delivery_address2, address3: @order.delivery_address3, address4: @order.delivery_address4, country_id: @order.delivery_country_id, postcode: @order.delivery_postcode)
+          end
+          customer.save
         end
 
         params.select{|k| !k.index('properties_').nil?}.each do |k,v|
@@ -86,6 +93,7 @@ module Shoppe
         end
         @order.ip_address = params[:ip]
         @order.proceed_to_confirm
+        @order.save
         @errors = JSON.parse(@order.errors.to_json)
         render 'show'
       end

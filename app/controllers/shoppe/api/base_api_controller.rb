@@ -120,6 +120,20 @@ module Shoppe
           )
         end
 
+        def attach_order customer
+          order = current_order
+          order.customer = customer
+
+          if order.billing_address1.present?
+            customer.addresses.build(address_type: 'billing', address1: order.billing_address1, address2: order.billing_address2, address3: order.billing_address3, address4: order.billing_address4, country_id: order.billing_country_id, postcode: order.billing_postcode)
+          end
+          if order.delivery_address1.present?
+            customer.addresses.build(address_type: 'delivery', address1: order.delivery_address1, address2: order.delivery_address2, address3: order.delivery_address3, address4: order.delivery_address4, country_id: order.delivery_country_id, postcode: order.delivery_postcode)
+          end
+          order.save
+          customer.save
+        end
+
         helper_method :current_order, :has_order?, :user_session, :user_session_write
     end
   end
