@@ -134,6 +134,11 @@ module Shoppe
           customer.save
         end
 
+        def dettach_order
+          order = current_order
+          order.customer = nil
+        end
+
         helper_method :current_order, :has_order?, :user_session, :user_session_write
     end
   end
