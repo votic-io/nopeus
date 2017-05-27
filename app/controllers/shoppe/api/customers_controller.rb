@@ -65,8 +65,8 @@ module Shoppe
           last_name: params[:last_name], 
           phone_number: params[:phone_number])
         if params[:billing_address1].present?
-          customer.addresses.build(address_type: 'billing', address1: params[:billing_address1], address2: params[:billing_address2], address3: params[:billing_address3], address4: params[:billing_address4], country_id: params[:billing_country_id], postcode: params[:billing_postcode])
-          customer.addresses.build(address_type: 'delivery', address1: params[:billing_address1], address2: params[:billing_address2], address3: params[:billing_address3], address4: params[:billing_address4], country_id: params[:billing_country_id], postcode: params[:billing_postcode])
+          @customer.addresses.build(address_type: 'billing', address1: params[:billing_address1], address2: params[:billing_address2], address3: params[:billing_address3], address4: params[:billing_address4], country_id: params[:billing_country_id], postcode: params[:billing_postcode])
+          @customer.addresses.build(address_type: 'delivery', address1: params[:billing_address1], address2: params[:billing_address2], address3: params[:billing_address3], address4: params[:billing_address4], country_id: params[:billing_country_id], postcode: params[:billing_postcode])
         end
         @errors = JSON.parse(@customer.errors.to_json)
         unless @customer.errors.any?
