@@ -32,8 +32,8 @@ module Shoppe
       end
 
       def index
-        @query = Shoppe::Customer.ordered.page(params[:page]).search(params[:q])
-        @customers = @query.result
+        @query = Shoppe::Customer.ordered
+        @customers = @query.page(params[:page]).search(params[:q]).result
       end
 
       def new
