@@ -15,7 +15,7 @@
         %th= t('shoppe.customers.name')
         %th= t('shoppe.customers.company')
         %th= t('shoppe.customers.email_address')
-        %th= t('shoppe.customers.phone')
+        %th= t('shoppe.customers.phone_number')
         %th= t('shoppe.customers.mobile_phone')
     %tbody
       - if @customers.empty?
@@ -27,6 +27,6 @@
             %td= link_to customer.full_name, customer
             %td= link_to customer.company, customer
             %td= customer.email_address
-            %td= customer.phone
+            %td= customer.phone_number
             %td= customer.mobile
 = paginate @customers
