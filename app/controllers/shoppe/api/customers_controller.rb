@@ -103,6 +103,7 @@ module Shoppe
           @customer.password = params[:password]
           @customer.password_confirmation = params[:password_confirmation]
           @customer.save
+          @errors = JSON.parse(@customer.errors.to_json)
         else
           @customer = Shoppe::Customer.new
           @errors = {'invalid' => ["This token has expired"]}
