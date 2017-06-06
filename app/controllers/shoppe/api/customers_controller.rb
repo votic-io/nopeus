@@ -96,9 +96,14 @@ module Shoppe
         password_digest = params[:token].split('_')[1]
 
         @customer = Shoppe::Customer.where(id: id, password_digest: password_digest).first
-        @customer.password = params[:password]
-        @customer.password_confirmation = params[:password_confirmation]
-        @customer.save
+        if @customer.present?
+          @customer.password = params[:password]
+          @customer.password_confirmation = params[:password_confirmation]
+          @customer.save
+        else
+          @customer = Shoppe::Customer.new
+          @errors = {'invalid' => ["This token has expired"]}
+        end
 
         render 'show'
       end
