@@ -88,6 +88,9 @@ module Shoppe
 
       def collect
         @customer ||= Shoppe::Customer.where(email_address: params[:email_address]).first
+        if @customer.nil?
+          @customer = Customer.new
+        end
         render 'show'
       end
 
