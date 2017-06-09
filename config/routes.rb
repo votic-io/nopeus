@@ -73,6 +73,7 @@ Shoppe::Engine.routes.draw do
         post 'current/reset' => 'orders#current_reset'
         get 'notify'
         get 'pending'
+        get 'accepted'
       end
       member do
         patch 'confirming'

@@ -137,6 +137,11 @@ module Shoppe
         render 'show'
       end
 
+      def accepted
+        @orders = Shoppe::Order.accepted.order(received_at: :asc)
+        render 'index'
+      end
+
       def current_reset
         user_session_write :order_id, nil
         @order = current_order
