@@ -98,7 +98,7 @@ Shoppe::Engine.routes.draw do
         get 'logout'
         get 'collect'
         post 'change_password'
-        get 'autocomplete'
+        get 'phone_autocomplete'
         #get 'create'
       end
       member do
