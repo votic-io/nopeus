@@ -112,6 +112,13 @@ module Shoppe
         render 'show'
       end
 
+      def autocomplete
+        if params[:phone_number].present?
+          @customers = Shoppe::Customer.where("phone_number LIKE :query", query: "%#{params[:phone_number]}%")
+        end
+        render 'index'
+      end
+
       def update
         if @customer.update(safe_params)
           redirect_to @customer, flash: { notice: t('shoppe.customers.updated_successfully') }
