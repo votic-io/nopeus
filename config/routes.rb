@@ -15,7 +15,6 @@ Shoppe::Engine.routes.draw do
     collection do
       get :import
       post :import
-      get :autocomplete
     end
   end
   resources :orders do
@@ -99,6 +98,7 @@ Shoppe::Engine.routes.draw do
         get 'logout'
         get 'collect'
         post 'change_password'
+        get 'autocomplete'
         #get 'create'
       end
       member do

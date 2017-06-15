@@ -1,3 +1,3 @@
 module Shoppe
-  VERSION = '1.3.71'.freeze
+  VERSION = '1.3.72'.freeze
 end
