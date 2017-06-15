@@ -115,6 +115,7 @@ module Shoppe
       def autocomplete
         if params[:phone_number].present?
           @customers = Shoppe::Customer.where("phone_number LIKE :query", query: "%#{params[:phone_number]}%")
+          @query = @customers
         end
         render 'index'
       end
