@@ -1,7 +1,7 @@
 module Shoppe
   class Order < ActiveRecord::Base
     # An array of all the available statuses for an order
-    STATUSES = %w(building confirming received accepted notified rejected shipped delivered).freeze
+    STATUSES = %w(building confirming received accepted rejected shipped delivered).freeze
 
     # The Shoppe::User who accepted the order
     #
@@ -25,8 +25,11 @@ module Shoppe
     # All orders which are currently pending acceptance/rejection
     scope :pending, -> { where(status: 'received') }
 
-    # All orders which are currently pending acceptance/rejection
+    # All orders which are currently accepted
     scope :accepted, -> { where(status: 'accepted') }
+
+    # All orders which are currently shipped
+    scope :shipped, -> { where(status: 'shipped') }
 
     # All ordered ordered by their ID desending
     scope :ordered, -> { order(id: :desc) }

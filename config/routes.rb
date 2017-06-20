@@ -74,6 +74,7 @@ Shoppe::Engine.routes.draw do
         get 'notify'
         get 'pending'
         get 'accepted'
+        get 'printing'
       end
       member do
         patch 'confirming'

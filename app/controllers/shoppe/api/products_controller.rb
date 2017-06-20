@@ -45,6 +45,13 @@ module Shoppe
   			current_order.order_items.add_item(@product, params[:quantity].to_i) 
   			render 'show'
   		end
+
+      def autocomplete
+        if params[:term].present?
+          @products = Shoppe::Product.where("name LIKE :query", query: "%#{params[:term]}%").limit(5)
+        end
+        render 'index'
+      end
     end
   end
 end

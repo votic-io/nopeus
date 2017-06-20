@@ -106,6 +106,9 @@ module Shoppe
 
       def accept
         @order = Shoppe::Order.find(params[:id])
+        params.select{|k| !k.index('properties_').nil?}.each do |k,v|
+          @order.properties[k.split('properties_')[1]] = v
+        end
         @order.accept!
         render 'show'
       end
@@ -118,6 +121,9 @@ module Shoppe
 
       def ship
         @order = Shoppe::Order.find(params[:id])
+        params.select{|k| !k.index('properties_').nil?}.each do |k,v|
+          @order.properties[k.split('properties_')[1]] = v
+        end
         @order.ship!
         render 'show'
       end
@@ -130,7 +136,7 @@ module Shoppe
       def notify
         @order = Shoppe::Order.accepted.order(accepted_at: :asc).first
         unless @order.nil?
-          @order.notify!
+          @order.properties.delete 'print'
         else
           @order = Shoppe::Order.new
         end
@@ -139,6 +145,12 @@ module Shoppe
 
       def accepted
         @orders = Shoppe::Order.accepted.order(received_at: :asc)
+        render 'index'
+      end
+
+      def printing
+        @orders = Shoppe::Order.accepted.select{|e| e.properties['print'].present?}
+        @orders += Shoppe::Order.shipping.select{|e| e.properties['print'].present?}
         render 'index'
       end
 
