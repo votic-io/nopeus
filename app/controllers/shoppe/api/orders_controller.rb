@@ -134,7 +134,7 @@ module Shoppe
       end
 
       def notify
-        @order = Shoppe::Order.accepted.order(accepted_at: :asc).first
+        @order = Shoppe::Order.find(params[:id])
         unless @order.nil?
           @order.properties.delete 'print'
         else
