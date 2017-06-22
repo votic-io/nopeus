@@ -137,6 +137,7 @@ module Shoppe
         @order = Shoppe::Order.find(params[:id])
         unless @order.nil?
           @order.properties.delete 'print'
+          @order.save
         else
           @order = Shoppe::Order.new
         end
