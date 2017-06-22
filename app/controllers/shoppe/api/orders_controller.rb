@@ -150,7 +150,7 @@ module Shoppe
 
       def printing
         @orders = Shoppe::Order.accepted.select{|e| e.properties['print'].present?}
-        @orders += Shoppe::Order.shipping.select{|e| e.properties['print'].present?}
+        @orders += Shoppe::Order.shipped.select{|e| e.properties['print'].present?}
         render 'index'
       end
 
