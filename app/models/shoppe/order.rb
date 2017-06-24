@@ -91,6 +91,34 @@ module Shoppe
       order_items.inject(0) { |t, i| t + i.quantity }
     end
 
+    def active_discounts
+        individual_promotions = Shoppe::Promotion.all
+
+        individual_promotions = individual_promotions.select{|e| e[:requeriments][:day_of_week] == Time.now.in_time_zone('Buenos Aires').wday}
+
+        result = []
+        self.order_items.each do |oi|
+            p = oi.ordered_item
+            if p.parent.present?
+                p = p.parent
+            end
+            promos = individual_promotions.select{|e| p.product_category_ids.index(e[:requeriments][:category_id]).present?}
+            promos.each do |promo|
+                applied_benefit = nil
+                if promo[:benefit][:double].present?
+                    applied_benefit = {title: "#{promo[:name]} - Duplicado - #{p.name}", amount: 0}
+                elsif promo[:benefit][:percentage].present?
+                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: oi.total * factor}
+                elsif promo[:benefit][:amount].present?
+                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: promo[:benefit][:amount]}
+                end
+                result << {product_id: p.id, promo: promo, applied_benefit: applied_benefit}
+            end
+        end
+
+        return result
+    end
+
     def self.ransackable_attributes(_auth_object = nil)
       %w(id billing_postcode billing_address1 billing_address2 billing_address3 billing_address4 first_name last_name company email_address phone_number consignment_number status received_at) + _ransackers.keys
     end
