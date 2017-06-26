@@ -9,7 +9,7 @@ module Shoppe
     self.table_name = 'shoppe_promotions'
 
     # Validations
-    validates :item, presence: true, inclusion: { in: TYPES }
+    validates :promotion_type, presence: true, inclusion: { in: TYPES }
     validates :name, presence: true
 
     scope :active, -> { where(active: true) }

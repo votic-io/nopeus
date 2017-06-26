@@ -92,7 +92,7 @@ module Shoppe
     end
 
     def active_discounts
-        individual_promotions = Shoppe::Promotion.all
+        individual_promotions = Shoppe::Promotion.active
 
         individual_promotions = individual_promotions.select{|e| e[:requeriments][:day_of_week] == Time.now.in_time_zone('Buenos Aires').wday}
 
