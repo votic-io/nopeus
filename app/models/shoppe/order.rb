@@ -94,7 +94,7 @@ module Shoppe
     def active_discounts
         individual_promotions = Shoppe::Promotion.active
 
-        individual_promotions = individual_promotions.select{|e| e[:requeriments][:day_of_week] == Time.now.in_time_zone('Buenos Aires').wday}
+        individual_promotions = individual_promotions.select{|e| e.requirements[:day_of_week] == Time.now.in_time_zone('Buenos Aires').wday}
 
         result = []
         self.order_items.each do |oi|
@@ -102,15 +102,15 @@ module Shoppe
             if p.parent.present?
                 p = p.parent
             end
-            promos = individual_promotions.select{|e| p.product_category_ids.index(e[:requeriments][:category_id]).present?}
+            promos = individual_promotions.select{|e| p.product_category_ids.index(e.requirements[:category_id]).present?}
             promos.each do |promo|
                 applied_benefit = nil
-                if promo[:benefit][:double].present?
+                if promo.benefits[:double].present?
                     applied_benefit = {title: "#{promo[:name]} - Duplicado - #{p.name}", amount: 0}
-                elsif promo[:benefit][:percentage].present?
+                elsif promo.benefits[:percentage].present?
                     applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: oi.total * factor}
-                elsif promo[:benefit][:amount].present?
-                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: promo[:benefit][:amount]}
+                elsif promo.benefits[:amount].present?
+                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: promo.benefits[:amount]}
                 end
                 result << {product_id: p.id, promo: promo, applied_benefit: applied_benefit}
             end
