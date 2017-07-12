@@ -94,7 +94,7 @@ module Shoppe
     def active_discounts
         individual_promotions = Shoppe::Promotion.active
 
-        individual_promotions = individual_promotions.select{|e| e.requirements[:day_of_week] == Time.now.in_time_zone('Buenos Aires').wday}
+        individual_promotions = individual_promotions.select{|e| e.requirements[:day_of_week] == self.received_at.in_time_zone('Buenos Aires').wday}
 
         result = []
         self.order_items.each do |oi|
