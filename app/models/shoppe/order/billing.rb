@@ -67,9 +67,14 @@ module Shoppe
     #
     # @return [BigDecimal]
     def total
+      active_discounts + 
       delivery_price +
         delivery_tax_amount +
         order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
+    end
+
+    def total_discount
+      self.active_discounts.inject(0){|sum,e| sum+e[:applied_benefit][:amount]}
     end
 
     # The total amount due on the order

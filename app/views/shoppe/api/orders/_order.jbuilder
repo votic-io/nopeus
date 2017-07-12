@@ -6,4 +6,5 @@ json.order_items order.order_items do |o|
 	end
 end
 json.properties order.properties
+json.discounts order.active_discounts
 json.errors @errors
