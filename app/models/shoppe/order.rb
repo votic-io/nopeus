@@ -107,8 +107,8 @@ module Shoppe
                 applied_benefit = nil
                 if promo.benefits[:double].present?
                     applied_benefit = {title: "#{promo[:name]} - Duplicado - #{p.name}", amount: 0}
-                elsif promo.benefits[:percentage].present?
-                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: oi.total * factor}
+                elsif promo.benefits[:factor].present?
+                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: oi.total * promo.benefits[:factor]}
                 elsif promo.benefits[:amount].present?
                     applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: promo.benefits[:amount]}
                 end
