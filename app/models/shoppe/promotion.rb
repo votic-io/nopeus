@@ -19,7 +19,7 @@ module Shoppe
     end
 
     def benefits
-      return {double: self.benefit_double, factor: self.benefic_factor, amount: self.benefit_amount}
+      return {double: self.benefit_double, factor: self.benefit_factor, amount: self.benefit_amount}
     end
   end
 end
