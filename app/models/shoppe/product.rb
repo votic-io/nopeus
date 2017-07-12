@@ -290,6 +290,34 @@ module Shoppe
       end
     end
 
+    def active_discounts
+        individual_promotions = Shoppe::Promotion.active
+
+        time = Time.now
+        
+        individual_promotions = individual_promotions.select{|e| e.requirements[:day_of_week] == time.in_time_zone('Buenos Aires').wday}
+
+        result = []
+        p = self
+        if p.parent.present?
+            p = p.parent
+        end
+        promos = individual_promotions.select{|e| p.product_category_ids.index(e.requirements[:category_id]).present?}
+        promos.each do |promo|
+            applied_benefit = nil
+            if promo.benefits[:double].present?
+                applied_benefit = {title: "#{promo[:name]} - Duplicado - #{p.name}", amount: 0}
+            elsif promo.benefits[:factor].present?
+                applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: -(oi.total * promo.benefits[:factor])}
+            elsif promo.benefits[:amount].present?
+                applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: -(promo.benefits[:amount])}
+            end
+            result << {product_id: p.id, promo: promo, applied_benefit: applied_benefit}
+        end
+
+        return result
+    end
+
     private
 
     # Validates
