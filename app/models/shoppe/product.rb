@@ -318,6 +318,17 @@ module Shoppe
         return result
     end
 
+    def final_price
+      result = self.price
+
+      if self.active_discounts.length > 0
+        discount = self.active_discounts.first
+        result -= discount[:applied_benefit][:amount]
+      end
+
+      return result
+    end
+
     private
 
     # Validates
