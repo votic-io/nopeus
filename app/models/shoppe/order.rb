@@ -103,7 +103,8 @@ module Shoppe
 
         result = []
         self.order_items.each do |oi|
-            p = oi.ordered_item
+            original = oi.ordered_item
+            p = original
             if p.parent.present?
                 p = p.parent
             end
@@ -111,11 +112,11 @@ module Shoppe
             promos.each do |promo|
                 applied_benefit = nil
                 if promo.benefits[:double].present?
-                    applied_benefit = {title: "#{promo[:name]} - Duplicado - #{p.name}", amount: 0}
+                    applied_benefit = {title: "#{promo[:name]} - Duplicado - #{original.name}", amount: 0}
                 elsif promo.benefits[:factor].present?
-                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: -(oi.total * promo.benefits[:factor])}
+                    applied_benefit = {title: "#{promo[:name]} - -#{(promo.benefits[:factor])*100).round(0)}% - #{orginal.name}", amount: -(oi.total * promo.benefits[:factor])}
                 elsif promo.benefits[:amount].present?
-                    applied_benefit = {title: "#{promo[:name]} - #{p.name}", amount: -(promo.benefits[:amount])}
+                    applied_benefit = {title: "#{promo[:name]} - -$#{promo.benefits[:amount]} -#{original.name}", amount: -(promo.benefits[:amount])}
                 end
                 result << {product_id: p.id, promo: promo, applied_benefit: applied_benefit}
             end
