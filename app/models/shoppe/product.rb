@@ -323,7 +323,7 @@ module Shoppe
 
       if self.active_discounts.length > 0
         discount = self.active_discounts.first
-        result -= discount[:applied_benefit][:amount]
+        result += discount[:applied_benefit][:amount]
       end
 
       return result
