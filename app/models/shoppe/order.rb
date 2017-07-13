@@ -114,7 +114,7 @@ module Shoppe
                 if promo.benefits[:double].present?
                     applied_benefit = {title: "#{promo[:name]} - Duplicado - #{original.name}", amount: 0}
                 elsif promo.benefits[:factor].present?
-                    applied_benefit = {title: "#{promo[:name]} - -#{(promo.benefits[:factor]*100).round(0)}% - #{orginal.name}", amount: -(oi.total * promo.benefits[:factor])}
+                    applied_benefit = {title: "#{promo[:name]} - -#{(promo.benefits[:factor]*100).round(0)}% - #{original.name}", amount: -(oi.total * promo.benefits[:factor])}
                 elsif promo.benefits[:amount].present?
                     applied_benefit = {title: "#{promo[:name]} - -$#{promo.benefits[:amount]} -#{original.name}", amount: -(promo.benefits[:amount])}
                 end
