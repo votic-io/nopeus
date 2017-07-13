@@ -112,7 +112,7 @@ module Shoppe
             promos.each do |promo|
                 applied_benefit = nil
                 if promo.benefits[:double].present?
-                    applied_benefit = {title: "#{promo[:name]} - Duplicado #{oi.quantity}- #{original.full_name}", amount: 0}
+                    applied_benefit = {title: "#{promo[:name]} - Duplicado #{oi.quantity} - #{original.full_name}", amount: 0}
                 elsif promo.benefits[:factor].present?
                     applied_benefit = {title: "#{promo[:name]} - #{(promo.benefits[:factor]*100).round(0)}% - #{original.full_name}", amount: -(oi.total * promo.benefits[:factor])}
                 elsif promo.benefits[:amount].present?
