@@ -39,6 +39,14 @@ module Shoppe
     		render 'show'
     	end
 
+      def toggle
+        @product = fetch_product params[:id]
+        @product.active = !@product.active
+        @product.save
+        
+        render 'show'
+      end
+
 		  def buy
   			params[:quantity] ||= 1
   			@product = fetch_product params[:id]

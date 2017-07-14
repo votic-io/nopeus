@@ -59,6 +59,7 @@ Shoppe::Engine.routes.draw do
     resources :products do
       member do
         post 'buy'
+        post 'toggle'
       end
     end
     resources :product_categories do
