@@ -45,6 +45,8 @@ module Shoppe
 
       def update
         @product = fetch_product params[:id]
+        puts "paramsa"
+        puts safe_params
         @product.update(safe_params)
 
         @errors = JSON.parse(@product.errors.to_json)
