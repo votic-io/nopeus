@@ -74,6 +74,7 @@ Shoppe::Engine.routes.draw do
         get 'pending'
         get 'accepted'
         get 'printing'
+        get 'delivery_services'
       end
       member do
         patch 'confirming'

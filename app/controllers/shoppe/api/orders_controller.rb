@@ -144,6 +144,16 @@ module Shoppe
         render 'show'
       end
 
+      def delivery_services
+        @order = Shoppe::Order.find(params[:id])
+        unless @order.nil?
+          @delivery_services = @order.available_delivery_services
+        else
+          @delivery_services = []
+        end
+        render 'delivery_services'
+      end
+
       def accepted
         @orders = Shoppe::Order.accepted.order(received_at: :asc)
         render 'index'
