@@ -43,6 +43,14 @@ module Shoppe
     		render 'show'
     	end
 
+      def update
+        @product = fetch_product params[:id]
+        @product.update(safe_params)
+
+        @errors = JSON.parse(@product.errors.to_json)
+        render 'show'
+      end
+
       def toggle
         @product = fetch_product params[:id]
         @product.active = !@product.active
