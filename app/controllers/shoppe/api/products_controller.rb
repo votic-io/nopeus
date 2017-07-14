@@ -7,6 +7,10 @@ module Shoppe
     	def index
     		@products_paged = Shoppe::Product.root.ordered.includes(:product_categories, :variants)
 
+        if params[:active].present?
+          @products_paged = @products_paged.active
+        end
+
         if params[:category_id].present?
         @products_paged = @products_paged
                           .where('shoppe_product_categorizations.product_category_id = ?', params[:category_id])
@@ -43,7 +47,7 @@ module Shoppe
         @product = fetch_product params[:id]
         @product.active = !@product.active
         @product.save
-        
+
         render 'show'
       end
 
