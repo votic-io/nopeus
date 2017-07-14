@@ -67,6 +67,21 @@ module Shoppe
         render 'show'
       end
 
+      def change_delivery
+        if params[:id].nil?
+          params[:id] = current_order[:id]
+        end
+        @order = Shoppe::Order.find(params[:id])
+
+        delivery_service = Shoppe::DeliveryService.find(params[:delivery_service_id])
+        if delivery_service.present?
+          @order.delivery_service = delivery_service
+          @order.save
+        end
+        
+        render 'show'
+      end
+
       def delete
         @order = Shoppe::Order.find(params[:id])
         @order.destroy

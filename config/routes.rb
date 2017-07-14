@@ -70,6 +70,7 @@ Shoppe::Engine.routes.draw do
         post 'remove'
         post 'increase'
         post 'decrease'
+        post 'change_delivery'
         post 'current/reset' => 'orders#current_reset'
         get 'pending'
         get 'accepted'
