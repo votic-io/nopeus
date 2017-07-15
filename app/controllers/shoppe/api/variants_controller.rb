@@ -2,6 +2,13 @@ module Shoppe
 	module Api
 		class VariantsController < BaseApiController
 
+			def show
+				@product = Shoppe::Product.find(params[:product_id])
+				@variant = @product.variants.find(params[:id])
+
+				render 'show'
+			end
+
 			def update
 				@product = Shoppe::Product.find(params[:product_id])
 				@variant = @product.variants.find(params[:id])
