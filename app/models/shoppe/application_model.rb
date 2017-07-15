@@ -3,8 +3,6 @@ module Shoppe
 		extend ActiveSupport::Concern
 
 		included do
-			belongs_to :application, class_name: 'Shoppe::Application'
-
 			default_scope lambda {
 				where(application_id: Thread.current[:application].id)
 			}	
@@ -13,6 +11,10 @@ module Shoppe
 			before_validation { 
 		    	self.application_id =  Thread.current[:application].id 
 		    }
+
+		    def application
+		    	Shoppe::Application.finc(self.application_id)
+		    end
 		end
 	end
 end
