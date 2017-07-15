@@ -22,6 +22,10 @@ module Shoppe
       "#{first_name} #{last_name}"
     end
 
+    def application
+      Shoppe::Application.find(self.application_id)
+    end
+
     # The user's first name & initial of last name concatenated
     #
     # @return [String]

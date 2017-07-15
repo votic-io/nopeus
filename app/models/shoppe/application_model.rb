@@ -11,10 +11,6 @@ module Shoppe
 			before_validation { 
 		    	self.application_id =  Thread.current[:application].id 
 		    }
-
-		    def application
-		    	Shoppe::Application.finc(self.application_id)
-		    end
 		end
 	end
 end
