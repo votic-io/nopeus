@@ -29,6 +29,15 @@ module Shoppe
 				render 'show'
 		    end
 
+		    def destroy
+		    	@product = Shoppe::Product.find(params[:product_id])
+				@variant = @product.variants.find(params[:id])
+				
+				@variant.destroy
+
+				render 'show'
+		    end
+
 			private
 
 			def safe_params
