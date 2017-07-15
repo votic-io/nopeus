@@ -57,6 +57,7 @@ Shoppe::Engine.routes.draw do
       get '/' => 'api_test#index'
     end
     resources :products do
+      resources :variants
       member do
         post 'buy'
         post 'toggle'
