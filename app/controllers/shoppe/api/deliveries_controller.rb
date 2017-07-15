@@ -56,7 +56,7 @@ module Shoppe
 			private
 
 			def safe_params
-				params[:delivery_service].permit(:active, :code, :default, :name, :tracking_url)
+				params[:delivery_service].permit(:active, :code, :default, :name, :tracking_url, :courier)
 		    end
 
 		    def price_safe_params
