@@ -65,6 +65,8 @@ Shoppe::Engine.routes.draw do
     end
     resources :product_categories do
     end
+    resources :deliveries do
+    end
     resources :orders do
       collection do
         get 'current'
