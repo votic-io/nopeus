@@ -19,6 +19,16 @@ module Shoppe
 				render 'show'
 			end
 
+			def create
+				@product = Shoppe::Product.find(params[:product_id])
+				
+				@variant = @product.variants.build(safe_params)
+				@variant.save
+				@errors = JSON.parse(@variant.errors.to_json)
+
+				render 'show'
+		    end
+
 			private
 
 			def safe_params
