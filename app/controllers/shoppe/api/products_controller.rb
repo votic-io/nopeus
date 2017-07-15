@@ -43,6 +43,13 @@ module Shoppe
     		render 'show'
     	end
 
+      def import_images
+        @product = fetch_product params[:id]
+        @product.import_images
+        
+        render 'show'
+      end
+
       def update
         @product = fetch_product params[:id]
         @product.update(safe_params)
