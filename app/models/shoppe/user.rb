@@ -23,7 +23,11 @@ module Shoppe
     end
 
     def application
-      Shoppe::Application.find(self.application_id)
+      if self.application_id.present?
+        return Shoppe::Application.find(self.application_id)
+      else
+        return nil
+      end
     end
 
     # The user's first name & initial of last name concatenated
