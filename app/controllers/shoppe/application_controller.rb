@@ -45,6 +45,10 @@ module Shoppe
         session[:app_token] = nil
         session[:shoppe_user_id] = nil
       end
+      Thread.current[:active_status] = true
+      if params[:include_inactive].present?
+        Thread.current[:active_status] = [true, false]
+      end
     end
 
     def login_required
