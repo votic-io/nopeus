@@ -62,7 +62,7 @@ module Shoppe
     scope :ordered, -> { includes(:translations).order(:name) }
 
     default_scope lambda {
-      where(active: Thread.current[:active_status])
+      where(active: Thread.current[:active_status] ||= [true, false])
     }
 
     def attachments=(attrs)
