@@ -2,6 +2,8 @@ module Shoppe
 	module Api
 		class DeliveriesController < BaseApiController
 
+			before_filter { params[:id] && @delivery = Shoppe::DeliveryService.where(active: [true,false]).find(params[:id]) }
+
 			def index
 				@deliveries = Shoppe::DeliveryService.all
 
@@ -9,14 +11,10 @@ module Shoppe
 			end
 
 			def show
-				@delivery = Shoppe::DeliveryService.find(params[:id])
-				
 				render 'show'
 			end
 
 			def update
-				@delivery = Shoppe::DeliveryService.find(params[:id])
-
 				@price = @delivery.delivery_service_prices.first
 				if @price.nil?
 					@price = Shoppe::DeliveryServicePrice.new(price_safe_params)
@@ -46,9 +44,7 @@ module Shoppe
 		    end
 
 		    def destroy
-		    	@delivery = Shoppe::DeliveryService.find(params[:id])
-				
-				@delivery.destroy
+		    	@delivery.destroy
 
 				render 'show'
 		    end
