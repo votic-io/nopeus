@@ -3,6 +3,7 @@ module Shoppe
     protect_from_forgery
 
     before_filter :setup_application
+    before_filter :scope_validations
     before_filter :login_required
     around_filter :catch_exceptions
 
@@ -45,6 +46,9 @@ module Shoppe
         session[:app_token] = nil
         session[:shoppe_user_id] = nil
       end
+    end
+
+    def scope_validations
       Thread.current[:active_status] = true
       if params[:include_inactive].present?
         Thread.current[:active_status] = [true, false]
