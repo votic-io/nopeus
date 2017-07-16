@@ -66,10 +66,10 @@ module Shoppe
     }
 
     def attachments=(attrs)
-      if attrs['default_image']['file'].present? then attachments.build(attrs['default_image']) end
-      if attrs['data_sheet']['file'].present? then attachments.build(attrs['data_sheet']) end
+      if attrs['default_image'].present? && attrs['default_image']['file'].present? then attachments.build(attrs['default_image']) end
+      if attrs['data_sheet'].present? && attrs['data_sheet']['file'].present? then attachments.build(attrs['data_sheet']) end
 
-      if attrs['extra']['file'].present? then attrs['extra']['file'].each { |attr| attachments.build(file: attr, parent_id: attrs['extra']['parent_id'], parent_type: attrs['extra']['parent_type']) } end
+      if attrs['extra'].present? && attrs['extra']['file'].present? then attrs['extra']['file'].each { |attr| attachments.build(file: attr, parent_id: attrs['extra']['parent_id'], parent_type: attrs['extra']['parent_type']) } end
     end
 
     # Return the name of the product
