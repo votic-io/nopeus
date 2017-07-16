@@ -159,6 +159,17 @@ module Shoppe
         render 'show'
       end
 
+      def reprint
+        @order = Shoppe::Order.find(params[:id])
+        unless @order.nil?
+          @order.properties['print'] = 'reprint'
+          @order.save
+        else
+          @order = Shoppe::Order.new
+        end
+        render 'show'
+      end      
+
       def delivery_services
         @order = Shoppe::Order.find(params[:id])
         unless @order.nil?

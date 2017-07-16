@@ -88,6 +88,7 @@ Shoppe::Engine.routes.draw do
         post 'reject'
         post 'ship'
         post 'notify'
+        post 'reprint'
         get 'notify'
         get 'delivery_services'
       end
