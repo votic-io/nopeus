@@ -61,6 +61,10 @@ module Shoppe
     translates :name, :permalink, :description, :short_description
     scope :ordered, -> { includes(:translations).order(:name) }
 
+    default_scope lambda {
+      where(active: true)
+    }
+
     def attachments=(attrs)
       if attrs['default_image']['file'].present? then attachments.build(attrs['default_image']) end
       if attrs['data_sheet']['file'].present? then attachments.build(attrs['data_sheet']) end
