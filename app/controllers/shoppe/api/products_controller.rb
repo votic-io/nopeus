@@ -53,6 +53,7 @@ module Shoppe
       def update
         @product = fetch_product params[:id]
         @product.update(safe_params)
+        @product.touch
 
         @errors = JSON.parse(@product.errors.to_json)
         render 'show'
