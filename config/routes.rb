@@ -117,5 +117,7 @@ Shoppe::Engine.routes.draw do
     end
     resources :countries do
     end
+    resources :attachments do
+    end
   end
 end
