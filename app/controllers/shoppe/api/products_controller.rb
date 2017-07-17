@@ -38,6 +38,11 @@ module Shoppe
 		  	render 'index'
     	end
 
+      def new
+        @product = Shoppe::Product.new
+        render 'show'
+      end      
+
     	def show
     		@product = fetch_product params[:id]
     		render 'show'
