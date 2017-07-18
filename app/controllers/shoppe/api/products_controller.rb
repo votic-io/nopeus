@@ -56,6 +56,7 @@ module Shoppe
       end
 
       def create
+        puts "CREATE"
         @product = Shoppe::Product.new(safe_params)
         @product.save
 
@@ -64,6 +65,7 @@ module Shoppe
       end
 
       def update
+        puts "UPDATE"
         @product = fetch_product params[:id]
         @product.update(safe_params)
         @product.touch
