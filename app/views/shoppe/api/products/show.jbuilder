@@ -4,3 +4,4 @@ json.product do
 		json.partial! 'shoppe/api/products/item', p: v
 	end
 end
+json.debug @debug
