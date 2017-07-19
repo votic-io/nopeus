@@ -21,6 +21,9 @@ module Shoppe
             session[:app_token] = nil
             session[:shoppe_user_id] = nil
           end
+
+          Thread.current[:cache_key] = params[:miss]
+          Thread.current[:cache_key] ||= 1
         end
 
         def prevent_missing_token
