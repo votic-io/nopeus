@@ -57,8 +57,7 @@ module Shoppe
 
       def create
         puts "CREATE"
-        @debug = {source: 'create'}
-        @debug = {source: 'update', params: params}
+        @debug = {source: 'create', params: params}
         @product = Shoppe::Product.new(safe_params)
         @product.save
 
@@ -68,14 +67,14 @@ module Shoppe
 
       def update
         puts "UPDATE"
-        @debug = {source: 'update', params: params, safe_params: safe_params}
+        @debug = {source: 'update', params: params}
         if params.present?
-          @debud[:enter] = 'u'
+          @debug[:enter] = 'u'
           @product = fetch_product params[:id]
           @product.update(safe_params)
           @product.touch
         else
-          @debud[:enter] = 'c'
+          @debug[:enter] = 'c'
           @product = Shoppe::Product.new(safe_params)
           @product.save          
         end
