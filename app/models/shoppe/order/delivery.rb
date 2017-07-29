@@ -148,7 +148,8 @@ module Shoppe
     #
     # @return [Shoppe::DeliveryService]
     def delivery_service
-      super || available_delivery_services.first
+      #super || available_delivery_services.first
+      super
     end
 
     # Return the delivery price for this order in its current state
