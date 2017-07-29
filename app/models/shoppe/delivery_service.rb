@@ -16,10 +16,6 @@ module Shoppe
     # All active delivery services
     scope :active, -> { where(active: true) }
 
-    default_scope lambda {
-      where(active: Thread.current[:active_status] ||= [true, false])
-    }
-
     # Returns a tracking URL for the passed order
     #
     # @param order [Shoppe::Order]

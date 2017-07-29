@@ -2,10 +2,13 @@ module Shoppe
 	module Api
 		class DeliveriesController < BaseApiController
 
-			before_filter { params[:id] && @delivery = Shoppe::DeliveryService.where(active: [true,false]).find(params[:id]) }
+			before_filter { params[:id] && @delivery = Shoppe::DeliveryService.find(params[:id]) }
 
 			def index
 				@deliveries = Shoppe::DeliveryService.all
+				if params[:active].present?
+		          @deliveries = @deliveries.active
+		        end
 
 				render 'index'
 			end
