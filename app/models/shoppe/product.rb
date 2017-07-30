@@ -294,9 +294,6 @@ module Shoppe
         individual_promotions = Shoppe::Promotion.active
 
         time = Time.now
-        if self.received_at.present?
-          time = self.received_at
-        end
         
         individual_promotions = individual_promotions.select{|e| e.requirements[:day_of_week] == time.in_time_zone('Buenos Aires').wday}
 
