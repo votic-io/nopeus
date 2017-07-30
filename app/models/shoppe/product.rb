@@ -321,8 +321,8 @@ module Shoppe
     end
 
     def children_discounts
-      if self.children.present?
-        self.children.collect{|e| e.active_discounts}
+      if self.has_variants?
+        self.variants.collect{|e| e.active_discounts}
       else
         return []
       end
