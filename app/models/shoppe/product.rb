@@ -307,7 +307,7 @@ module Shoppe
           p = p.parent
           promos = individual_promotions.select{|e| p.product_category_ids.index(e.requirements[:category_id]).present?}
         end
-        
+
         promos.each do |promo|
             applied_benefit = nil
             if promo.benefits[:double].present?
@@ -321,6 +321,14 @@ module Shoppe
         end
 
         return result
+    end
+
+    def children_discounts
+      if self.children.present?
+        self.children.collect{|e| e.active_discounts}
+      else
+        return []
+      end
     end
 
     def final_price

@@ -15,5 +15,6 @@ json.cache! ['item', p], expires_in: 60.minutes do
 		end
 	end
 	json.discounts p.active_discounts
+	json.children_discounts p.children_discounts
 	json.errors @errors
 end
