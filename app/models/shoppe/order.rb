@@ -104,11 +104,14 @@ module Shoppe
         result = []
         self.order_items.each do |oi|
             original = oi.ordered_item
+            
             p = original
-            if p.parent.present?
-                p = p.parent
-            end
             promos = individual_promotions.select{|e| p.product_category_ids.index(e.requirements[:category_id]).present?}
+            if promos.blank? && p.parent.present?
+              p = p.parent
+              promos = individual_promotions.select{|e| p.product_category_ids.index(e.requirements[:category_id]).present?}
+            end
+
             promos.each do |promo|
                 applied_benefit = nil
                 if promo.benefits[:double].present?
