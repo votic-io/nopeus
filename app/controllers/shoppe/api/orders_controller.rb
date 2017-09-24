@@ -4,6 +4,11 @@ module Shoppe
 
       include Shoppe::ProductsHelper
 
+      def index
+        @query = Shoppe::Order.ordered.received.includes(order_items: :ordered_item)
+        render 'index'
+      end
+
       def show
         @order = Shoppe::Order.find(params[:id])
         render 'show'
