@@ -5,7 +5,7 @@ module Shoppe
       include Shoppe::ProductsHelper
 
       def index
-        @query = Shoppe::Order.ordered.received.includes(order_items: :ordered_item)
+        @orders = Shoppe::Order.ordered.received.includes(order_items: :ordered_item)
         render 'index'
       end
 
