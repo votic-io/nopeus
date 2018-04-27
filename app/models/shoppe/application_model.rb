@@ -5,7 +5,6 @@ module Shoppe
 		included do
 			default_scope lambda {
 				puts "SCOPE - #{Thread.current[:application].to_json}"
-				puts caller
 				where(application_id: Thread.current[:application].id)
 			}	
 			validates :application_id, presence: true
