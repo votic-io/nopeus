@@ -13,7 +13,7 @@ module Shoppe
       private
         def setup_application
           Thread.current[:app_token] ||= params[:app_token]
-          Thread.current[:app_token] ||= session[:app_token]
+          #Thread.current[:app_token] ||= session[:app_token]
           Thread.current[:app_token] ||= user_session[:app_token]
           
           Thread.current[:application] = Shoppe::Application.current.first
