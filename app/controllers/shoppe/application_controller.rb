@@ -38,10 +38,14 @@ module Shoppe
     end
 
     def setup_application
+      puts "01-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
       Thread.current[:app_token] ||= params[:app_token]
+      puts "02-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
       Thread.current[:app_token] ||= session[:app_token]
+      puts "03-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
       
       Thread.current[:application] = Shoppe::Application.current.first
+      puts "04-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
       if Thread.current[:application].nil?
         session[:app_token] = nil
         session[:shoppe_user_id] = nil

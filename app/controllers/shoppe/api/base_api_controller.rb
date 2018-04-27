@@ -12,11 +12,15 @@ module Shoppe
 
       private
         def setup_application
+          puts "1-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
           Thread.current[:app_token] ||= params[:app_token]
+          puts "2-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
           #Thread.current[:app_token] ||= session[:app_token]
           Thread.current[:app_token] ||= user_session[:app_token]
+          puts "3-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
           
           Thread.current[:application] = Shoppe::Application.current.first
+          puts "4-#{Thread.current[:app_token]}-#{Thread.current[:application].to_json}"
           if Thread.current[:application].nil?
             session[:app_token] = nil
             session[:shoppe_user_id] = nil
