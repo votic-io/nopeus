@@ -54,6 +54,9 @@ module Shoppe
         end
 
         def user_session
+          if Thread.current[:session_id].nil?
+            collect_session_id
+          end
           session_id = Thread.current[:session_id]
           session = Rails.cache.read("USER_SESSION_#{session_id}")
           puts "------session------------------------------------------------"

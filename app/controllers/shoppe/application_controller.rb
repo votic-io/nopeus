@@ -2,10 +2,10 @@ module Shoppe
   class ApplicationController < ActionController::Base
     protect_from_forgery
 
-    before_filter :setup_application
+    #before_filter :setup_application
     before_filter :scope_validations
-    before_filter :login_required
-    around_filter :catch_exceptions
+    #before_filter :login_required
+    #around_filter :catch_exceptions
 
     rescue_from ActiveRecord::DeleteRestrictionError do |e|
       redirect_to request.referer || root_path, alert: e.message
