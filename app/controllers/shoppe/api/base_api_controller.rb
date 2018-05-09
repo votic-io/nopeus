@@ -60,6 +60,7 @@ module Shoppe
 
         def user_session
           if Thread.current[:session_id].nil?
+            puts "NIL"
             collect_session_id
           end
           session_id = Thread.current[:session_id]
@@ -83,6 +84,7 @@ module Shoppe
         end
 
         def collect_session_id
+          puts "SID - #{params[:session_id]}"
           Thread.current[:session_id] = params[:session_id]
           Thread.current[:session_id] ||= request.session_options[:id]
         end
