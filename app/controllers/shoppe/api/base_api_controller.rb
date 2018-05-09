@@ -1,6 +1,7 @@
 module Shoppe
   module Api
     class BaseApiController < ApplicationController
+      before_filter :clean_thread
       before_filter :collect_session_id
       before_filter :setup_application
       before_filter :prevent_missing_token
@@ -11,6 +12,14 @@ module Shoppe
 
 
       private
+        def clean_thread
+          Thread.current[:app_token] = nil
+          Thread.current[:application] = nil
+          Thread.current[:active_status] = nil
+          Thread.current[:cache_key] = nil
+          Thread.current[:session_id] = nil
+        end
+        
         def setup_application
           puts "0-PARAMS-#{params.to_json}"
           puts "1-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
