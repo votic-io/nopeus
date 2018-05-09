@@ -12,6 +12,7 @@ module Shoppe
 
       private
         def setup_application
+          puts "0-PARAMS-#{params.to_json}"
           puts "1-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
           Thread.current[:app_token] = params[:app_token]
           puts "2-#{Thread.current[:app_token]}-#{Thread.current[:application]}"
