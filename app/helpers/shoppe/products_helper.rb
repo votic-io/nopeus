@@ -6,7 +6,7 @@ module Shoppe
       			id = id.to_i
       			product =Shoppe::Product.where(active: [true,false]).find(id.to_i)
       		else
-				product =Shoppe::Product.where(active: [true,false]).find_by_permalink(id)
+				product =Shoppe::Product.where(active: [true,false]).find_by(permalink: id)
 			end
 
 			return product
