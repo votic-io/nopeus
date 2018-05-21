@@ -1,4 +1,4 @@
-json.cache! ['index', @products], expires_in: 60.minutes do
+json.cache! ['index', @products] do
 	json.products @products do |pp|
 		json.partial! 'item', p: pp
 		json.variants pp.variants do |v|
