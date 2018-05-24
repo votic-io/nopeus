@@ -14,7 +14,9 @@ json.cache! ['item', p] do
 			json.partial! 'shoppe/api/product_categories/item', p: pc
 		end
 	end
-	json.discounts p.active_discounts
-	json.children_discounts p.children_discounts
 	json.errors @errors
+end
+json.cache! ['item-discounts', p], expires_in: 1.hour do
+	json.children_discounts p.children_discounts
+	json.discounts p.active_discounts
 end
