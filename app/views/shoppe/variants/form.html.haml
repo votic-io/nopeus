@@ -17,7 +17,9 @@
       %dl.third
         %dt= f.label :sku, t('shoppe.variants.sku')
         %dd= f.text_field :sku, :class => 'text'
-
+    %dl
+      %dt= f.label :description, t('shoppe.products.description')
+      %dd= f.text_area :description, :class => 'text'
   = field_set_tag t('shoppe.variants.image') do
     %dl
       %dd
