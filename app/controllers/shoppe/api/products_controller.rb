@@ -28,6 +28,9 @@ module Shoppe
         else
           @products_paged = @products_paged.ordered
         end
+        if params[:order].present?
+          @products_paged = @products_paged.reorder(params[:order])
+        end
 
         if params[:limit].present?
           @products_paged = @products_paged.limit(params[:limit].to_i)
