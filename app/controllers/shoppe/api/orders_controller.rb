@@ -6,6 +6,12 @@ module Shoppe
 
       def index
         @orders = Shoppe::Order.ordered.received.includes(order_items: :ordered_item).page(params[:page])
+        
+        params.select{|k| !k.index('properties_').nil?}.each do |k,v|
+          k = k.split('properties_')[1]
+          @orders = @orders.select{|e| e.properties[k] == v}
+        end
+        
         render 'index'
       end
 
