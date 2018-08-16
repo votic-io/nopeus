@@ -1,5 +1,9 @@
 module Shoppe
   module ApplicationHelper
+    def parse_json string
+      JSON.parse(string) rescue nil
+    end
+
     def navigation_manager_link(item)
       link_to item.description, item.url(self), item.link_options.merge(class: item.active?(self) ? 'active' : 'inactive')
     end

@@ -1,7 +1,7 @@
 module Shoppe
   module Api
     class OrdersController < BaseApiController
-
+      include Shoppe::ApplicationHelper
       include Shoppe::ProductsHelper
 
       def index
@@ -133,6 +133,10 @@ module Shoppe
       def accept
         @order = Shoppe::Order.find(params[:id])
         params.select{|k| !k.index('properties_').nil?}.each do |k,v|
+          jv = parse_json v
+          if jv.present?
+            v = jv
+          end
           @order.properties[k.split('properties_')[1]] = v
         end
         @order.accept!
