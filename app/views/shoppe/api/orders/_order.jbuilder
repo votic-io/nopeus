@@ -9,6 +9,7 @@ json.order_items order.order_items do |o|
 	json.ordered_item do
 		json.partial! 'shoppe/api/products/item', p: o.ordered_item
 	end
+	json.properties o.properties
 end
 json.properties order.properties
 json.discounts order.active_discounts

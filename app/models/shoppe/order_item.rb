@@ -3,6 +3,9 @@ module Shoppe
     include ApplicationModel
     self.table_name = 'shoppe_order_items'
 
+    # OrderItems can have properties
+    key_value_store :properties
+
     # The associated order
     #
     # @return [Shoppe::Order]
@@ -41,17 +44,39 @@ module Shoppe
     # @param ordered_item [Object] an object which implements the Shoppe::OrderableItem protocol
     # @param quantity [Fixnum] the number of items to order
     # @return [Shoppe::OrderItem]
-    def self.add_item(ordered_item, quantity = 1)
+    def self.add_item(ordered_item, quantity = 1, properties={})
       fail Errors::UnorderableItem, ordered_item: ordered_item unless ordered_item.orderable?
       transaction do
         if existing = where(ordered_item_id: ordered_item.id, ordered_item_type: ordered_item.class.to_s).first
           existing.increase!(quantity)
+          item = existing
           existing
         else
           new_item = create(ordered_item: ordered_item, quantity: 0)
           new_item.increase!(quantity)
+          item = new_item
           new_item
         end
+        properties.each do |k,v|
+          item.properties[k.split('properties_')[1]] = v
+          item.save
+        end
+        item
+      end
+    end
+
+    def self.hard_add_item(ordered_item, quantity = 1, properties={})
+      fail Errors::UnorderableItem, ordered_item: ordered_item unless ordered_item.orderable?
+      transaction do
+        new_item = create(ordered_item: ordered_item, quantity: 0)
+        new_item.increase!(quantity)
+        item = new_item
+        new_item
+        properties.each do |k,v|
+          item.properties[k.split('properties_')[1]] = v
+          item.save
+        end
+        item
       end
     end
 

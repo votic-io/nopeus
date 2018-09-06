@@ -72,6 +72,7 @@ Shoppe::Engine.routes.draw do
       collection do
         get 'current'
         post 'add'
+        post 'hard_add'
         post 'remove'
         post 'increase'
         post 'decrease'

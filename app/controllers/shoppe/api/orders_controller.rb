@@ -34,7 +34,20 @@ module Shoppe
 
         params[:quantity] ||= 1
         @product = fetch_product params[:product_id]
-        @order.order_items.add_item(@product, params[:quantity].to_i) 
+        @order.order_items.add_item(@product, params[:quantity].to_i, params.select{|k| !k.index('properties_').nil?}) 
+        @order = Shoppe::Order.find(params[:id])
+        render 'show'
+      end
+
+      def hard_add
+        if params[:id].nil?
+          params[:id] = current_order[:id]
+        end
+        @order = Shoppe::Order.find(params[:id])
+
+        params[:quantity] ||= 1
+        @product = fetch_product params[:product_id]
+        @order.order_items.hard_add_item(@product, params[:quantity].to_i, params.select{|k| !k.index('properties_').nil?}) 
         @order = Shoppe::Order.find(params[:id])
         render 'show'
       end
@@ -133,12 +146,12 @@ module Shoppe
       def accept
         @order = Shoppe::Order.find(params[:id])
         params.select{|k| !k.index('properties_').nil?}.each do |k,v|
-          jv = parse_json v
-          if jv.present?
-            v = jv
-          end
+          puts "---------------------------------------------------------PROPERTIES------------------------------"
+          puts v.class
+          puts v.class
           @order.properties[k.split('properties_')[1]] = v
         end
+        @order.save
         @order.accept!
         render 'show'
       end
